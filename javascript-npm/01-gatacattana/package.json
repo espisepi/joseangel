@@ -1,0 +1,14 @@
+{
+  "name": "01-gatacattana",
+  "version": "1.0.0",
+  "description": "",
+  "main": "11-rust.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "joseangel",
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.116.1"
+  }
+}

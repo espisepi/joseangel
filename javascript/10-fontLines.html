@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>10-fontlines</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link type="text/css" rel="stylesheet" href="main.css">
+	</head>
+
+	<body>
+		<div id="container"></div>
+
+				// var attributes = line.geometry.attributes;
+				// var array = attributes.displacement.array;
+
+				// for ( var i = 0, l = array.length; i < l; i += 3 ) {
+
+				// 	array[ i ] += 0.3 * ( 0.5 - Math.random() );
+				// 	array[ i + 1 ] += 0.3 * ( 0.5 - Math.random() );
+				// 	array[ i + 2 ] += 0.3 * ( 0.5 - Math.random() );
+
+				// }
+
+				// attributes.displacement.needsUpdate = true;
+
+				// contadorUniform * ( 0.3 * ( 0.5 - Math.random() ) )
+
+		<script type="x-shader/x-vertex" id="vertexshaderMio">
+
+			uniform float amplitude;
+			uniform float time;
+			uniform float contador;
+
+			attribute vec3 displacement;
+			attribute vec3 customColor;
+
+			varying vec3 vColor;
+
+			float random(float temp) {
+				return fract(sin( temp * time )*1.0);
+			}
+
+			void main() {
+				//vec3 newDisplacement = displacement + time + 0.3 * ( 0.5 - random() );
+				//vec3 newDisplacement = vec3( 5.0 * sin(time + random()) );
+
+				float temp = 0.0;
+				float x = sin( contador * ( 0.3 * ( 0.5 - random(temp) ) ) );
+				temp += 1.0;
+				float y = sin ( contador * ( 0.3 * ( 0.5 - random(temp) ) ) );
+				temp += 1.0;
+				float z = sin ( contador * ( 0.3 * ( 0.5 - random(temp) ) ) );
+
+				vec3 newDisplacement = vec3( x, y, z );
+
+				//vec3 newPosition = position + amplitude * newDisplacement;
+				vec3 newPosition = position + amplitude * newDisplacement;
+
+				vColor = customColor;
+
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+			}
+
+		</script>
+
+
+
+
+		<script type="x-shader/x-vertex" id="vertexshader">
+			uniform float amplitude;
+			uniform float contador;
+			uniform float random1;
+			uniform float random2;
+			uniform float random3;
+			uniform sampler2D noiseTexture;
+
+			attribute vec3 displacement;
+			attribute vec3 customColor;
+
+			varying vec3 vColor;
+
+			void main() {
+
+
+				vec3 random = vec3( texture2D(noiseTexture, position.xy) );
+
+
+				float x = contador * ( 0.3 * ( 0.5 - random1 ) );
+				
+				float y = contador * ( 0.3 * ( 0.5 - random2 ) );
+				
+				float z = contador * ( 0.3 * ( 0.5 - random3 ) );
+
+				//vec3 newDisplacement = vec3( x, y, z );
+
+				vec3 newDisplacement = contador * ( 0.3 * ( 0.5 - random ) );
+
+
+				//vec3 newPosition = position + amplitude * newDisplacement;
+
+				vec3 newPosition = position + amplitude * displacement;
+
+				vColor = customColor;
+
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+			}
+		</script>
+		<script type="x-shader/x-fragment" id="fragmentshader">
+
+			uniform vec3 color;
+			uniform float opacity;
+
+			varying vec3 vColor;
+
+			void main() {
+
+				gl_FragColor = vec4( vColor * color, opacity );
+
+			}
+
+		</script>
+
+		<script type="module">
+			// Thanks to https://threejs.org/examples/#webgl_custom_attributes_lines
+
+			import * as THREE from './js/three.js/build/three.module.js';
+
+			import Stats from './js/three.js/examples/jsm/libs/stats.module.js';
+
+			var renderer, scene, camera, stats;
+
+			var line, uniforms;
+
+			var contadorUniform;
+
+			var loader = new THREE.FontLoader();
+			loader.load( 'fonts/helvetiker_bold.typeface.json', function ( font ) {
+
+				init( font );
+				animate();
+
+			} );
+
+			function init( font ) {
+
+				camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.z = 400;
+
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0x050505 );
+
+				const texture = new THREE.TextureLoader().load( 'textures/noise.jpg' );
+
+				uniforms = {
+
+					amplitude: { value: 5.0 },
+					opacity: { value: 0.3 },
+					color: { value: new THREE.Color( 0xffffff ) },
+					time: { value: 0.0001 },
+					contador: { value: 1.0 },
+					random1: { value: 1.0 },
+					random2: { value: 1.0 },
+					random3: { value: 1.0 },
+					noiseTexture: texture
+
+				};
+
+				var shaderMaterial = new THREE.ShaderMaterial( {
+
+					uniforms: uniforms,
+					vertexShader: document.getElementById( 'vertexshader' ).textContent,
+					fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
+					blending: THREE.AdditiveBlending,
+					depthTest: false,
+					transparent: true
+
+				} );
+
+
+				var geometry = new THREE.TextBufferGeometry( 'joseangel', {
+
+					font: font,
+
+					size: 50,
+					height: 15,
+					curveSegments: 10,
+
+					bevelThickness: 5,
+					bevelSize: 1.5,
+					bevelEnabled: true,
+					bevelSegments: 10,
+
+				} );
+
+				geometry.center();
+
+				var count = geometry.attributes.position.count;
+
+				var displacement = new THREE.Float32BufferAttribute( count * 3, 3 );
+				geometry.setAttribute( 'displacement', displacement );
+
+				var customColor = new THREE.Float32BufferAttribute( count * 3, 3 );
+				geometry.setAttribute( 'customColor', customColor );
+
+				/* Rellenamos customColor */
+
+				var color = new THREE.Color( 0xffffff );
+
+				for ( var i = 0, l = customColor.count; i < l; i ++ ) {
+
+					color.setHSL( i / l, 0.5, 0.5 );
+					/*
+						color.toArray ( array : Array, offset : Integer ) : Array
+						añade la variable color al array pasado por parametro en la posicion offset
+						customColor.array = [ 0.75 , 0.5, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, ... ]
+						color = [ 0.25, 0.25, 0.25 ]
+						color.toArray( customColor.array, 3 );
+						Resultado: customColor.array = [ 0.75 , 0.5, 0.5, 0.25, 0.25, 0.25, 0.0, 0.0, ... ]
+					*/
+					color.toArray( customColor.array, i * customColor.itemSize );
+
+				}
+
+				/* Fin relleno customColor */
+
+				line = new THREE.Line( geometry, shaderMaterial );
+				//line = new THREE.Mesh(geometry, shaderMaterial);
+				line.rotation.x = 0.2;
+				scene.add( line );
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+				var container = document.getElementById( 'container' );
+				container.appendChild( renderer.domElement );
+
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				render();
+				stats.update();
+
+			}
+
+			// function render() {
+
+			// 	var time = Date.now() * 0.001;
+
+			// 	//line.rotation.y = 0.25 * time;
+
+			// 	uniforms.amplitude.value = Math.sin( 0.5 * time );
+			// 	uniforms.color.value.offsetHSL( 0.0005, 0, 0 );
+			// 	uniforms.time.value = time;
+			// 	uniforms.contador.value += 1;
+
+			// 	// var attributes = line.geometry.attributes;
+			// 	// var array = attributes.displacement.array;
+
+			// 	// for ( var i = 0, l = array.length; i < l; i += 3 ) {
+
+			// 	// 	array[ i ] += 0.3 * ( 0.5 - Math.random() );
+			// 	// 	array[ i + 1 ] += 0.3 * ( 0.5 - Math.random() );
+			// 	// 	array[ i + 2 ] += 0.3 * ( 0.5 - Math.random() );
+
+			// 	// }
+
+			// 	// attributes.displacement.needsUpdate = true;
+
+			// 	renderer.render( scene, camera );
+
+			// }
+
+			//--------- ANTIGUO function render()---------------
+
+			function render() {
+
+				var time = Date.now() * 0.001;
+
+				//line.rotation.y = 0.25 * time;
+
+				uniforms.amplitude.value = Math.sin( 0.5 * time );
+				uniforms.color.value.offsetHSL( 0.0005, 0, 0 );
+				uniforms.contador.value += 1.0;
+				uniforms.random1.value = Math.random();
+				uniforms.random2.value = Math.random();
+				uniforms.random3.value = Math.random();
+
+				// var attributes = line.geometry.attributes;
+				// var array = attributes.displacement.array;
+
+				// for ( var i = 0, l = array.length; i < l; i += 3 ) {
+
+				// 	array[ i ] += 0.3 * ( 0.5 - Math.random() );
+				// 	array[ i + 1 ] += 0.3 * ( 0.5 - Math.random() );
+				// 	array[ i + 2 ] += 0.3 * ( 0.5 - Math.random() );
+
+				// }
+
+				// attributes.displacement.needsUpdate = true;
+
+				renderer.render( scene, camera );
+
+			}
+
+
+		</script>
+
+</body>
+
+</html>

@@ -1,0 +1,3 @@
+npx glslify horse.frag -o horseMod.frag
+
+( si falla es porque nos puede faltar alguna dependencia de glsl-loquesea en el package.json )

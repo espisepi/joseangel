@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Modelo 3D</title>
+
+	<style>
+		html, body {
+		  margin: 0;
+		  height: 100vh;
+		  /*La siguiente linea es de tene poca verguensa*/
+		  overflow:hidden;
+		}
+		#c {
+ 			width: 100%;
+  			height: 100vh;
+  			display: block;
+		}
+		.divCanvas{
+			width: 100%;
+			height: 100vh;
+			position:relative;
+		}
+		.btn-visible{
+			position: absolute;
+			width: 30%;
+			height: 20vh;
+		}
+		.no-visible{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+
+	<button id="btn-iniciar" >Iniciar</button>
+
+
+	<div class="divCanvas">
+		<canvas id="c"></canvas>
+	</div>
+
+
+	<video id="video"  loop crossOrigin="anonymous" playsinline style="display:none">
+		<source src="assets/gatacattana.mp4" type='video/mp4; '>
+	</video>
+
+	
+
+	<script type="module" src="index.js"></script>
+</body>
+</html>

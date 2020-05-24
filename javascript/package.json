@@ -1,0 +1,21 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "00-plantilla.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "glsl-checker": "^1.0.1",
+    "glsl-easings": "^1.0.0",
+    "glsl-film-grain": "^1.0.4",
+    "glsl-halftone": "^1.0.4",
+    "glsl-hash-blur": "^1.0.3",
+    "glsl-lut": "^1.1.1",
+    "glsl-noise": "0.0.0",
+    "glslify": "^7.0.0"
+  }
+}
