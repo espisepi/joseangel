@@ -6,6 +6,11 @@ import { GLTFLoader } from './node_modules/three/examples/jsm/loaders/GLTFLoader
 
 import { OBJLoader } from './node_modules/three/examples/jsm/loaders/OBJLoader.js';
 
+import { Water } from './node_modules/three/examples/jsm/objects/Water.js';
+import { Sky } from './node_modules/three/examples/jsm/objects/Sky.js';
+
+import Stats from './node_modules/three/examples/jsm/libs/stats.module.js';
+
 var renderer;
 var scene;
 var camera;
@@ -14,6 +19,8 @@ var controls;
 var textureLoader = new THREE.TextureLoader();
 
 var mixer;
+
+var stats;
 
 
 function main() {
@@ -29,6 +36,11 @@ function main() {
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xd8e2dc);
+
+  let container = document.createElement( 'div' );
+  document.body.appendChild( container );
+  stats = new Stats();
+  container.appendChild( stats.dom );
 
   createLights();
 
@@ -84,6 +96,8 @@ function loadPromises() {
 
     let [ textures, lut, shaders, geometry, videoTexture ] = result;
 
+
+    /* --------------- HORSE ----------------------*/
     const canvas = renderer.domElement;
     const pixelRatio = window.devicePixelRatio;
     const width  = canvas.clientWidth  * pixelRatio | 0;
@@ -133,12 +147,78 @@ function loadPromises() {
           );
         //console.log(shader.vertexShader);
     };
-
-
     geometry.scale.set( 0.5, 0.5, 0.5 );
     //geometry.rotation.set(3,0,0);
-
     scene.add(geometry);
+
+    // --------------- WATER -------------
+
+    const waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
+	const water = new Water(
+		waterGeometry,
+		{
+			textureWidth: 512,
+			textureHeight: 512,
+			waterNormals: new THREE.TextureLoader().load( 'assets/textures/waternormals.jpg', function ( texture ) {
+
+				texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+
+			} ),
+			alpha: 1.0,
+			sunDirection: new THREE.Vector3(0 ,0.5, 0),
+			sunColor: 0xffffff,
+			waterColor: 0x001e0f,
+			distortionScale: 3.7,
+			fog: scene.fog !== undefined
+		}
+	);
+	water.rotation.x = - Math.PI / 2;
+	water.name = "water";
+	scene.add( water );
+
+
+	// ---------- SKYBOX ------------
+	// Skybox
+
+	// const sky = new Sky();
+
+	// const uniforms = sky.material.uniforms;
+
+	// uniforms[ 'turbidity' ].value = 10;
+	// uniforms[ 'rayleigh' ].value = 2;
+	// uniforms[ 'luminance' ].value = 1;
+	// uniforms[ 'mieCoefficient' ].value = 0.005;
+	// uniforms[ 'mieDirectionalG' ].value = 0.8;
+
+	// const parameters = {
+	// 	distance: 400,
+	// 	inclination: 0.49,
+	// 	azimuth: 0.205
+	// };
+
+	// const cubeCamera = new THREE.CubeCamera( 0.1, 1, 512 );
+	// cubeCamera.renderTarget.texture.generateMipmaps = true;
+	// cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
+
+	// scene.background = cubeCamera.renderTarget;
+	// function updateSun() {
+
+	// 	const theta = Math.PI * ( parameters.inclination - 0.5 );
+	// 	const phi = 2 * Math.PI * ( parameters.azimuth - 0.5 );
+
+	// 	light.position.x = parameters.distance * Math.cos( phi );
+	// 	light.position.y = parameters.distance * Math.sin( phi ) * Math.sin( theta );
+	// 	light.position.z = parameters.distance * Math.sin( phi ) * Math.cos( theta );
+
+	// 	sky.material.uniforms[ 'sunPosition' ].value = light.position.copy( light.position );
+	// 	water.material.uniforms[ 'sunDirection' ].value.copy( light.position ).normalize();
+
+	// 	cubeCamera.update( renderer, sky );
+
+	// }
+
+	// updateSun();
+
 
     /* FIN TODAS LAS PROMESAS FUERON RESUELTAS */
 
@@ -287,11 +367,18 @@ function render(time) {
 
 	if ( mixer ) {
 		let time = Date.now();
-
 		mixer.update( ( time - prevTime ) * 0.001 );
-		
 		prevTime = time;
 	}
+
+	const water = scene.getObjectByName('water');
+	if(water){
+		water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+	}
+
+	stats.update();
+	
+
 
   renderer.render( scene, camera );
   controls.update();
