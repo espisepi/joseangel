@@ -8,6 +8,7 @@ import { OBJLoader } from './node_modules/three/examples/jsm/loaders/OBJLoader.j
 
 import { Water } from './node_modules/three/examples/jsm/objects/Water.js';
 import { Sky } from './node_modules/three/examples/jsm/objects/Sky.js';
+import { Reflector } from './node_modules/three/examples/jsm/objects/Reflector.js';
 
 import Stats from './node_modules/three/examples/jsm/libs/stats.module.js';
 
@@ -22,15 +23,34 @@ var mixer;
 
 var stats;
 
+var video;
+
+// audio
+// let audio, analyser;
+// const fftSize = 2048;  // https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode/fftSize
+// const frequencyRange = {
+//     bass: [20, 140],
+//     lowMid: [140, 400],
+//     mid: [400, 2600],
+//     highMid: [2600, 5200],
+//     treble: [5200, 14000],
+// };
+
 
 function main() {
 	const canvas = document.querySelector('#c')
 	renderer = new THREE.WebGLRenderer({canvas});
 	renderer.shadowMap.enabled = true;
 
-	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-	camera.position.z = 30;
-  camera.position.y = 20;
+	// camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+	// camera.position.z = 30;
+ //  camera.position.y = 20;
+
+ camera = new THREE.PerspectiveCamera( 55, window.innerWidth / window.innerHeight, 1, 20000 );
+ //camera.position.set( 30, 30, 100 );
+ camera.position.set( 52.74, 52.74, 175.80 );
+ //camera.position.set( -752.6680104833616, 123.90549192335402, -9.561435083130343 );
+ //camera.rotation.set(0,-3,0);
 
   controls = new OrbitControls( camera, canvas );
 
@@ -46,7 +66,10 @@ function main() {
 
   //createFloor();
 
+  //initAudio();
+
   loadPromises();
+
 }
 
 function loadPromises() {
@@ -88,13 +111,13 @@ function loadPromises() {
     }),
     loadShaders,
     loadGeometry('./assets/Horse.glb'),
-    loadTextureVideo('video')
+    loadTextureVideo('gotham'),
     ])
   .then(result => {
 
     /* ------------  TODAS LAS PROMESAS FUERON RESUELTAS -----------*/
 
-    let [ textures, lut, shaders, geometry, videoTexture ] = result;
+    let [ textures, lut, shaders, geometry, gothamTexture ] = result;
 
 
     /* --------------- HORSE ----------------------*/
@@ -104,7 +127,7 @@ function loadPromises() {
     const height = canvas.clientHeight * pixelRatio | 0;
     const resolution = new THREE.Vector2(width, height);
 
-    textures[0] = videoTexture;
+    textures[0] = gothamTexture;
     //textures[1] = videoTexture;
 
 
@@ -147,16 +170,22 @@ function loadPromises() {
           );
         //console.log(shader.vertexShader);
     };
-    geometry.scale.set( 0.5, 0.5, 0.5 );
+
+
+    geometry.scale.set( 1, 1, 1 );
+    geometry.name = "horse";
     //geometry.rotation.set(3,0,0);
     scene.add(geometry);
 
     // --------------- WATER -------------
 
-    const waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
+    const waterGeometry = new THREE.BoxBufferGeometry( 10000, 10000, 10000 );
+
+    //const waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
 	const water = new Water(
 		waterGeometry,
 		{
+			side: THREE.BackSide,
 			textureWidth: 512,
 			textureHeight: 512,
 			waterNormals: new THREE.TextureLoader().load( 'assets/textures/waternormals.jpg', function ( texture ) {
@@ -172,53 +201,12 @@ function loadPromises() {
 			fog: scene.fog !== undefined
 		}
 	);
-	water.rotation.x = - Math.PI / 2;
+	//water.rotation.x = - Math.PI / 2;
+	water.position.y = 5000;
 	water.name = "water";
 	scene.add( water );
 
-
-	// ---------- SKYBOX ------------
-	// Skybox
-
-	// const sky = new Sky();
-
-	// const uniforms = sky.material.uniforms;
-
-	// uniforms[ 'turbidity' ].value = 10;
-	// uniforms[ 'rayleigh' ].value = 2;
-	// uniforms[ 'luminance' ].value = 1;
-	// uniforms[ 'mieCoefficient' ].value = 0.005;
-	// uniforms[ 'mieDirectionalG' ].value = 0.8;
-
-	// const parameters = {
-	// 	distance: 400,
-	// 	inclination: 0.49,
-	// 	azimuth: 0.205
-	// };
-
-	// const cubeCamera = new THREE.CubeCamera( 0.1, 1, 512 );
-	// cubeCamera.renderTarget.texture.generateMipmaps = true;
-	// cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
-
-	// scene.background = cubeCamera.renderTarget;
-	// function updateSun() {
-
-	// 	const theta = Math.PI * ( parameters.inclination - 0.5 );
-	// 	const phi = 2 * Math.PI * ( parameters.azimuth - 0.5 );
-
-	// 	light.position.x = parameters.distance * Math.cos( phi );
-	// 	light.position.y = parameters.distance * Math.sin( phi ) * Math.sin( theta );
-	// 	light.position.z = parameters.distance * Math.sin( phi ) * Math.cos( theta );
-
-	// 	sky.material.uniforms[ 'sunPosition' ].value = light.position.copy( light.position );
-	// 	water.material.uniforms[ 'sunDirection' ].value.copy( light.position ).normalize();
-
-	// 	cubeCamera.update( renderer, sky );
-
-	// }
-
-	// updateSun();
-
+	scene.background = gothamTexture;
 
     /* FIN TODAS LAS PROMESAS FUERON RESUELTAS */
 
@@ -301,7 +289,8 @@ function loadTexture( path, opt = {} ) {
 function loadTextureVideo( idDomVideo ) {
   return new Promise((resolve, rejected) => {
 
-    const video = document.getElementById( idDomVideo );
+    video = document.getElementById( idDomVideo );
+    //video.muted = true;
     video.play();
     
     const textureVideo = new THREE.VideoTexture( video );
@@ -376,8 +365,15 @@ function render(time) {
 		water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
 	}
 
+	// const horse = scene.getObjectByName('horse');
+	// if(horse){
+	// 	horse.rotation.y += 0.01;
+	// }
+
 	stats.update();
-	
+	TWEEN.update();
+
+	checkTweenAnimation();
 
 
   renderer.render( scene, camera );
@@ -398,14 +394,94 @@ function resizeRendererToDisplaySize() {
 }
 
 
-const btn = document.getElementById('btn-iniciar');
+let btn = document.getElementById('btn-iniciar');
 btn.addEventListener('click', () => {
+  btn.style.display = 'none';
   main();
   render();
 });
 
 // main();
 // render();
+
+
+
+/* ------------------- TWEEN ------------------- */
+
+function tween1() {
+
+	//TWEEN.removeAll();
+	// const posX =  442.9434333092014,
+	// 	  posY = 111.44223594261443,
+	// 	  posZ = 1.9354844143547656;
+
+	const posX =  442.94,
+	posY = 111.44,
+	posZ = 1.93;
+
+	// const posX =  454.97468971406664,
+	// 	  posY = 40.20923868404839,
+	// 	  posZ = -1.8033323631738967;
+
+	let camerax = camera.position.x;
+	let cameraY = camera.position.y;
+	let cameraZ = camera.position.z;
+
+	camerax += 5;
+
+	let from = {
+            x: camerax,
+            y: cameraY,
+            z: cameraZ
+        };
+
+    let to = {
+        x: posX,
+        y: posY,
+        z: posZ
+    };
+    let tween = new TWEEN.Tween(from)
+        .to(to, 20000)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate(function () {
+        	camera.position.set(from.x, from.y, from.z);
+        	//camera.lookAt(new THREE.Vector3(0, 0, 0));
+    	})
+        .onComplete(function () {
+        	//controls.target.copy(scene.position);
+    	})
+        .start();
+
+}
+
+var animations = [ tween1 ];
+function checkTweenAnimation() {
+	if(animations.length != 0) {
+		if(video.currentTime > 10.0) {
+			(animations.pop())();
+		}
+	}
+	
+	
+}
+
+// function initAudio() {
+//     const audioListener = new THREE.AudioListener();
+//     audio = new THREE.Audio(audioListener);
+
+//     const audioLoader = new THREE.AudioLoader();
+//     // https://www.newgrounds.com/audio/listen/872056
+//     audioLoader.load('assets/gotham.mp3', (buffer) => {
+//         audio.setBuffer(buffer);
+//         audio.setLoop(true);
+//         audio.setVolume(0.5);
+//         audio.play();
+//     });
+
+//     analyser = new THREE.AudioAnalyser(audio, fftSize);
+// };
+
+
 
 
 
