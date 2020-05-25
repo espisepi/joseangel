@@ -53,6 +53,7 @@ function main() {
  //camera.rotation.set(0,-3,0);
 
   controls = new OrbitControls( camera, canvas );
+  controls.enabled = false;
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xd8e2dc);
