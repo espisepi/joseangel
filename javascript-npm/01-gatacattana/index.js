@@ -407,60 +407,136 @@ btn.addEventListener('click', () => {
 
 
 /* ------------------- TWEEN ------------------- */
+/* http://tweenjs.github.io/tween.js/examples/03_graphs.html */
 
 function tween1() {
 
+	// let group = new THREE.Group();
+	// group.add( scene.getObjectByName('water') );
+	// group.add( scene.getObjectByName('horse') );
+	// scene.add(group);
+	// group.rotation.y += 0.01;
+
 	//TWEEN.removeAll();
-	// const posX =  442.9434333092014,
-	// 	  posY = 111.44223594261443,
-	// 	  posZ = 1.9354844143547656;
 
-	const posX =  442.94,
-	posY = 111.44,
-	posZ = 1.93;
+	// Posicion cerca agua cerca caballo
+	// x: 116.19039349035572
+	// y: 4.317963425051384
+	// z: 163.9805777172494
 
-	// const posX =  454.97468971406664,
-	// 	  posY = 40.20923868404839,
-	// 	  posZ = -1.8033323631738967;
+	// Posicion gataCattana
+	// x =  442.94
+	// y = 111.44
+	// z = 1.93
 
-	let camerax = camera.position.x;
-	let cameraY = camera.position.y;
-	let cameraZ = camera.position.z;
+	// Posicion cerca agua lejos caballo
+	// x: 920.7504792035136
+	// y: 4.997434958552961
+	// z: 478.6020417334049
 
-	camerax += 5;
+	// Posicion lejos agua lejos caballo
+	// x: 33.40287279554564
+	// y: 244.79757005677044
+	// z: 1007.8813082126062
+
+	//.to(to, 20000)
+
 
 	let from = {
-            x: camerax,
-            y: cameraY,
-            z: cameraZ
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z
         };
 
     let to = {
-        x: posX,
-        y: posY,
-        z: posZ
+        x: 116.19,
+        y: 4.31,
+        z: 163.98
     };
-    let tween = new TWEEN.Tween(from)
-        .to(to, 20000)
+
+    let to2 = {
+      	x:  442.94,
+		y: 111.44,
+		z: 1.93
+    };
+
+
+    let update = () => {
+    	camera.position.set(from.x, from.y, from.z);
+    	//camera.lookAt(new THREE.Vector3(0, 0, 0));
+    };
+
+    let tween1 = new TWEEN.Tween(from)
+        .to(to, 11000)
         .easing(TWEEN.Easing.Linear.None)
-        .onUpdate(function () {
-        	camera.position.set(from.x, from.y, from.z);
-        	//camera.lookAt(new THREE.Vector3(0, 0, 0));
-    	})
+        .onUpdate(update)
         .onComplete(function () {
         	//controls.target.copy(scene.position);
-    	})
-        .start();
+    	});
+
+     let tween2 = new TWEEN.Tween(from)
+        .to(to2, 16000)
+        .easing(TWEEN.Easing.Linear.None)
+        .onUpdate(update)
+        .onComplete(function () {
+        	//controls.target.copy(scene.position);
+    	});
+
+    tween1.chain(tween2);
+    tween1.start();
 
 }
 
+
+
+function tween2() {
+
+	let from = {
+            posx: camera.position.x,
+            posy: camera.position.y,
+            posz: camera.position.z
+        };
+
+    let to = {
+        posx: [920.75, 978.81, -731.71, camera.position.x],
+        posy: [4.9974, 4.9974, 4.9974, camera.position.y],
+        posz: [478.6020, -343.26, -735.06, camera.position.z]
+    };
+
+    let tween = new TWEEN.Tween(from)
+        .to(to, 20000)
+        .easing(TWEEN.Easing.Linear.None)
+        //.interpolation(TWEEN.Interpolation.Linear)
+        .onUpdate(function () {
+        	//group.rotation.set(from.x, from.y, from.z);
+        	camera.position.set(from.posx, from.posy, from.posz);
+        	camera.lookAt(new THREE.Vector3(0, 0, 0));
+        	//camera.lookAt(new THREE.Vector3(from.x, from.y, from.z));
+    	})
+        .onComplete(function () {
+        	controls.target.copy(scene.position);
+    	})
+        .start();
+
+
+}
+
+
+//var animations = [ tween1, tween2 ];
 var animations = [ tween1 ];
+// Esta funcion es llamada por cada render()
 function checkTweenAnimation() {
 	if(animations.length != 0) {
-		if(video.currentTime > 10.0) {
+		if(video.currentTime > 3.0) {
 			(animations.pop())();
 		}
 	}
+
+	// if(animations.length != 0) {
+	// 	if(video.currentTime > 2.0) {
+	// 		(animations.pop())();
+	// 	}
+	// }
 	
 	
 }
