@@ -439,8 +439,6 @@ function tween1() {
 	// y: 244.79757005677044
 	// z: 1007.8813082126062
 
-	//.to(to, 20000)
-
 
 	let from = {
             x: camera.position.x,
@@ -488,74 +486,18 @@ function tween1() {
 }
 
 
-
-function tween2() {
-
-	let from = {
-            posx: camera.position.x,
-            posy: camera.position.y,
-            posz: camera.position.z
-        };
-
-    let to = {
-        posx: [920.75, 978.81, -731.71, camera.position.x],
-        posy: [4.9974, 4.9974, 4.9974, camera.position.y],
-        posz: [478.6020, -343.26, -735.06, camera.position.z]
-    };
-
-    let tween = new TWEEN.Tween(from)
-        .to(to, 20000)
-        .easing(TWEEN.Easing.Linear.None)
-        //.interpolation(TWEEN.Interpolation.Linear)
-        .onUpdate(function () {
-        	//group.rotation.set(from.x, from.y, from.z);
-        	camera.position.set(from.posx, from.posy, from.posz);
-        	camera.lookAt(new THREE.Vector3(0, 0, 0));
-        	//camera.lookAt(new THREE.Vector3(from.x, from.y, from.z));
-    	})
-        .onComplete(function () {
-        	controls.target.copy(scene.position);
-    	})
-        .start();
-
-
-}
-
-
-//var animations = [ tween1, tween2 ];
 var animations = [ tween1 ];
+var numAnimaciones = 1;
 // Esta funcion es llamada por cada render()
 function checkTweenAnimation() {
 	if(animations.length != 0) {
-		if(video.currentTime > 3.0) {
+		if(video.currentTime > 3.0 && animations.length === numAnimaciones) {
 			(animations.pop())();
 		}
 	}
-
-	// if(animations.length != 0) {
-	// 	if(video.currentTime > 2.0) {
-	// 		(animations.pop())();
-	// 	}
-	// }
-	
-	
+		
 }
 
-// function initAudio() {
-//     const audioListener = new THREE.AudioListener();
-//     audio = new THREE.Audio(audioListener);
-
-//     const audioLoader = new THREE.AudioLoader();
-//     // https://www.newgrounds.com/audio/listen/872056
-//     audioLoader.load('assets/gotham.mp3', (buffer) => {
-//         audio.setBuffer(buffer);
-//         audio.setLoop(true);
-//         audio.setVolume(0.5);
-//         audio.play();
-//     });
-
-//     analyser = new THREE.AudioAnalyser(audio, fftSize);
-// };
 
 
 
