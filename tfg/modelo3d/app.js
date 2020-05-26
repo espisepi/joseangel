@@ -42,6 +42,9 @@ function main() {
     controls.dampingFactor = 0.1;
     controls.autoRotate = false; // Toggle this if you'd like the chair to automatically rotate
     controls.autoRotateSpeed = 0.2; // 30
+    controls.maxDistance = 100;
+    controls.minDistance = 10;
+
 
 	// controls = new OrbitControls( camera, canvas );
 	// controls.enableDamping = true;
@@ -58,18 +61,8 @@ function main() {
 	loadModel();
 	createFloor();
 
-	// const loader = new THREE.TextureLoader();
-	// const texture = loader.load(
-	// 	'https://threejsfundamentals.org/threejs/resources/images/world.jpg'
-	// );
-	// const geometry = new THREE.SphereBufferGeometry( 1, 64, 32 );
-	// const material = new THREE.MeshBasicMaterial({map: texture});
-	// const mesh = new THREE.Mesh(geometry, material);
-	// scene.add(mesh);
-
-	
-
 }
+
 
 function createLights(){
 	/* Hemisphere Light */
@@ -96,8 +89,8 @@ function createLights(){
 function createFloor(){
 
 	const floorGeometry = new THREE.PlaneGeometry(
-            100,
-            100,
+            1000,
+            1000,
             1,
             1
     );
