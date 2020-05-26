@@ -2,38 +2,21 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Modelo 3D</title>
+	<title>GataCattana</title>
 
-	<style>
-		html, body {
-		  margin: 0;
-		  height: 100vh;
-		  /*La siguiente linea es de tene poca verguensa*/
-		  overflow:hidden;
-		}
-		#c {
- 			width: 100%;
-  			height: 100vh;
-  			display: block;
-		}
-		.divCanvas{
-			width: 100%;
-			height: 100vh;
-			position:relative;
-		}
-		.btn-visible{
-			position: absolute;
-			width: 30%;
-			height: 20vh;
-		}
-		.no-visible{
-			display: none;
-		}
-	</style>
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/sado-buttons.css">
+	<link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
+	
+	<div id="overlay">
+				<!-- <button id="btn-iniciar" class="sado-btn sado-style-4" >Iniciar</button> -->
+				<a id="btn-iniciar" class="sado-btn sado-style-4" ><span>Iniciar</span></a>
+				<p>Se requiere la interacci&oacuten del usuario para iniciar el video</p>
+		</div>
 
-	<button id="btn-iniciar" >Iniciar</button>
+
 
 
 	<div class="divCanvas">

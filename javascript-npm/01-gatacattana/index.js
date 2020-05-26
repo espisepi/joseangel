@@ -395,17 +395,6 @@ function resizeRendererToDisplaySize() {
 }
 
 
-let btn = document.getElementById('btn-iniciar');
-btn.addEventListener('click', () => {
-  btn.style.display = 'none';
-  main();
-  render();
-});
-
-// main();
-// render();
-
-
 
 /* ------------------- TWEEN ------------------- */
 /* http://tweenjs.github.io/tween.js/examples/03_graphs.html */
@@ -590,7 +579,17 @@ function checkTweenAnimation() {
 
 
 
+/* MAIN PRINCIPAL */
+let btn = document.getElementById('btn-iniciar');
+btn.addEventListener('click', () => {
+  let overlay = document.getElementById('overlay');
+  overlay.style.display = 'none';
+  main();
+  render();
+});
 
+// main();
+// render();
 
 
 
