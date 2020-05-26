@@ -12,7 +12,7 @@ var camera;
 var controls;
 
 var textureLoader = new THREE.TextureLoader();
-var humanMesh;
+var bagMesh;
 
 
 function main() {
@@ -132,6 +132,7 @@ function loadModel(){
 			});
 			object.position.y = -1;
 			scene.add( object );
+			bagMesh = object;
 		},
 		function ( xhr ) {
 			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -181,3 +182,28 @@ function resizeRendererToDisplaySize() {
 // circularMenu();
 main();
 render();
+
+(function() {
+				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
+					new SelectFx(el, {
+						stickyPlaceholder: false,
+						onChange: function(val){
+							var img = document.createElement('img');
+							img.src = 'img/'+val+'.jpg';
+
+							const texture = new THREE.TextureLoader().load( img.src );
+							bagMesh.traverse((child)=>{
+								if(child.isMesh){
+									child.material.map = texture;
+									child.castShadow = true;
+									child.receiveShadow = true;
+								}
+							});
+
+							img.onload = function() {
+								document.querySelector('span.cs-placeholder').style.backgroundImage = 'url(img/'+val+'.jpg)';
+							};
+						}
+					});
+				} );
+			})();
