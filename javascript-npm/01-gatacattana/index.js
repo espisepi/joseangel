@@ -61,7 +61,7 @@ function main() {
   let container = document.createElement( 'div' );
   document.body.appendChild( container );
   stats = new Stats();
-  container.appendChild( stats.dom );
+  //container.appendChild( stats.dom );
 
   createLights();
 

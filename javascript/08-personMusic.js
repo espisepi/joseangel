@@ -70,14 +70,14 @@ function main() {
 
 function loadLeePerrySmith() {
 	const loader = new GLTFLoader();
-	loader.load( 'js/three.js/examples/models/gltf/LeePerrySmith/LeePerrySmith.glb', function ( gltf ) {
+	loader.load( 'asset/LeePerrySmith/LeePerrySmith.glb', function ( gltf ) {
 
 		humanMesh = gltf.scene.children[ 0 ];
 		humanMesh.material = new THREE.MeshPhongMaterial( {
 			specular: 0x111111,
-			map: textureLoader.load( 'js/three.js/examples/models/gltf/LeePerrySmith/Map-COL.jpg' ),
-			specularMap: textureLoader.load( 'js/three.js/examples/models/gltf/LeePerrySmith/Map-SPEC.jpg' ),
-			normalMap: textureLoader.load( 'js/three.js/examples/models/gltf/LeePerrySmith/Infinite-Level_02_Tangent_SmoothUV.jpg' ),
+			map: textureLoader.load( 'asset/LeePerrySmith/Map-COL.jpg' ),
+			specularMap: textureLoader.load( 'asset/LeePerrySmith/Map-SPEC.jpg' ),
+			normalMap: textureLoader.load( 'asset/LeePerrySmith/Infinite-Level_02_Tangent_SmoothUV.jpg' ),
 			shininess: 25
 		} );
 
@@ -180,8 +180,11 @@ function onWindowResize() {
 
 window.addEventListener( 'resize', onWindowResize, false );
 // Necesitamos interactuar para reproducir audio
-document.getElementById('button-iniciar').addEventListener('click', iniciar);
-function iniciar(){
-main();
-render();
-}
+/* MAIN PRINCIPAL */
+let btn = document.getElementById('btn-iniciar');
+btn.addEventListener('click', () => {
+  let overlay = document.getElementById('overlay');
+  overlay.style.display = 'none';
+  main();
+  render();
+});

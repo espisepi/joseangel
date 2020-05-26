@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 	// Home Page Top Carousel Initialization
 	$(".owl-carousel-home").owlCarousel({
-		items: 4,
+		items: 3,
 		loop: true,
 		autoplay: true,
 		margin: 10,
@@ -32,7 +32,7 @@ $(document).ready(function(){
 		        items: 3,
 		    },
 		    768 : {
-		        items: 4,
+		        items: 3,
 		    }
 		}
 	});

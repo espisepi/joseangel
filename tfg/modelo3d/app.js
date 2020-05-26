@@ -14,6 +14,8 @@ var controls;
 var textureLoader = new THREE.TextureLoader();
 var bagMesh;
 
+var parameters;
+var spriteMaterials = [];
 
 function main() {
 	const canvas = document.querySelector('#c')
@@ -60,11 +62,63 @@ function main() {
 
 	loadModel();
 	createFloor();
+	createParticles();
 
 }
 
+function createParticles() {
 
-function createLights(){
+	let vertices = [];
+	for ( let i = 0; i < 100; i ++ ) {
+
+		let x = Math.random() * 2000 - 1000;
+		let y = Math.random() * 2000 - 1000;
+		let z = Math.random() * 2000 - 1000;
+		//let z = Math.random() * 2000 - 1000;
+
+		vertices.push( x, y, z );
+
+	}
+	const geometry = new THREE.BufferGeometry();
+	geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
+
+	const sprite1 = textureLoader.load( 'img/spriteTextures/snowflake1.png' );
+	const sprite2 = textureLoader.load( 'img/spriteTextures/snowflake2.png' );
+	const sprite3 = textureLoader.load( 'img/spriteTextures/snowflake3.png' );
+	const sprite4 = textureLoader.load( 'img/spriteTextures/snowflake4.png' );
+	const sprite5 = textureLoader.load( 'img/spriteTextures/snowflake5.png' );
+
+	parameters = [
+		[[ 1.0, 0.2, 0.5 ], sprite2, 20 ],
+		// [[ 0.95, 0.1, 0.5 ], sprite3, 15 ],
+		// [[ 0.90, 0.05, 0.5 ], sprite1, 10 ],
+		// [[ 0.85, 0, 0.5 ], sprite5, 8 ],
+		[[ 0.80, 0, 0.5 ], sprite4, 5 ]
+	];
+
+	for ( let i = 0; i < parameters.length; i ++ ) {
+
+		let color = parameters[ i ][ 0 ];
+		let sprite = parameters[ i ][ 1 ];
+		let size = parameters[ i ][ 2 ];
+
+		spriteMaterials[ i ] = new THREE.PointsMaterial( { size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true } );
+		spriteMaterials[ i ].color.setHSL( color[ 0 ], color[ 1 ], color[ 2 ] );
+
+		let particles = new THREE.Points( geometry, spriteMaterials[ i ] );
+		particles.name = "particles";
+
+		particles.rotation.x = Math.random() * 6;
+		particles.rotation.y = Math.random() * 6;
+		particles.rotation.z = Math.random() * 6;
+
+		scene.add( particles );
+
+	}
+}
+
+
+function createLights() {
 	/* Hemisphere Light */
 	const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.61 );
     hemiLight.position.set( 0, 0, 0);
@@ -128,7 +182,7 @@ function loadModel(){
 			bagMesh = object;
 		},
 		function ( xhr ) {
-			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+			//console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 		},
 		function ( error ) {
 			console.log( 'An error happened' );
@@ -137,7 +191,9 @@ function loadModel(){
 
 }
 
-function render() {
+function render( time ) {
+
+	time *= 0.000005;
 
 	if (resizeRendererToDisplaySize()) {
       const canvas = renderer.domElement;
@@ -145,11 +201,45 @@ function render() {
       camera.updateProjectionMatrix();
     }
 
+    updateParticles( time );
+
 	renderer.render( scene, camera );
 	controls.update();
-	//TWEEN.update();
 	requestAnimationFrame( render );
 };
+
+
+/*const particles = scene.getObjectByName('particles');
+	particles.rotation.y += time;
+	spriteMaterials.forEach( (material, i) => {
+		const color = parameters[ i ][ 0 ];
+		const h = ( 360 * ( color[ 0 ] + time ) % 360 ) / 360;
+		material.color.setHSL( h, color[ 1 ], color[ 2 ] );
+	} );*/
+
+function updateParticles( time ) {
+
+	for ( let i = 0; i < scene.children.length; i ++ ) {
+
+		let object = scene.children[ i ];
+
+		if ( object instanceof THREE.Points ) {
+
+			object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+
+		}
+
+	}
+
+	for ( let i = 0; i < spriteMaterials.length; i ++ ) {
+
+		let color = parameters[ i ][ 0 ];
+
+		let h = ( 360 * ( color[ 0 ] + time ) % 360 ) / 360;
+		spriteMaterials[ i ].color.setHSL( h, color[ 1 ], color[ 2 ] );
+
+	}
+}
 
 function resizeRendererToDisplaySize() {
     const canvas = renderer.domElement;
@@ -163,18 +253,11 @@ function resizeRendererToDisplaySize() {
     return needResize;
 }
 
-// function circularMenu(){
-// 	const menu = document.getElementById('circularMenu');
-// 	document.addEventListener('click', (e) =>{
-// 		const valueSelected = e.options[e.selectedIndex].value;
-// 		console.log(valueSelected);
-// 	});
-	
-// }
 
-// circularMenu();
 main();
 render();
+
+
 
 (function() {
 				[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {	
