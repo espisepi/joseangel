@@ -102,7 +102,7 @@ function createParticles() {
 		let sprite = parameters[ i ][ 1 ];
 		let size = parameters[ i ][ 2 ];
 
-		spriteMaterials[ i ] = new THREE.PointsMaterial( { size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true } );
+		spriteMaterials[ i ] = new THREE.PointsMaterial( { size: size,depthTest: true, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent: true } );
 		spriteMaterials[ i ].color.setHSL( color[ 0 ], color[ 1 ], color[ 2 ] );
 
 		let particles = new THREE.Points( geometry, spriteMaterials[ i ] );

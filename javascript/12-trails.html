@@ -1,0 +1,244 @@
+<!-- three.js/examples/webgl_trails.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - trails</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/sado-buttons.css">
+		<link rel="stylesheet" href="css/custom.css">
+
+	</head>
+	<body>
+
+
+		<div id="overlay">
+			<!-- <button id="btn-iniciar" class="sado-btn sado-style-4" >Iniciar</button> -->
+			<a id="btn-iniciar" class="sado-btn sado-style-4" ><span>Iniciar</span></a>
+			<p>Se requiere la interacci&oacuten del usuario para iniciar el video</p>
+		</div>
+
+		<video id="video"  loop crossOrigin="anonymous" playsinline style="display:none">
+			<source src="textures/charliGarcia.mp4" type='video/mp4; '>
+		</video>
+
+
+		<script type="module">
+
+			import * as THREE from './js/three.js/build/three.module.js';
+
+			import Stats from './js/three.js/examples/jsm/libs/stats.module.js';
+
+			import { OrbitControls } from './js/three.js/examples/jsm/controls/OrbitControls.js';
+
+			var container, stats;
+
+			var camera, scene, renderer;
+
+			document.getElementById('btn-iniciar').addEventListener('click', () => {
+				document.getElementById('overlay').remove();
+				init();
+				animate();
+			});
+			
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 100 );
+				camera.position.set( 6, 6, 6 );
+
+				scene = new THREE.Scene();
+
+				// var light = new THREE.PointLight( 0xff0000, 1000, 1 );
+				// light.position.set( 1, 1, 1 );
+				// scene.add( light );
+				
+
+				var colorArray = [ new THREE.Color( 0xff0080 ), new THREE.Color( 0xffffff ), new THREE.Color( 0x8000ff ) ];
+				var positions = [];
+				var colors = [];
+				let uv = [];
+
+				// for ( var i = 0; i < 1000; i += 3 ) {
+
+				// 	//positions.push( Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5 );
+				// 	positions.push( ( i / 1000 )*Math.random() - 0.5, Math.random() - 0.5, ( (i + 2) / 1000 ) - 0.5 );
+
+				// 	var clr = colorArray[ Math.floor( Math.random() * colorArray.length ) ];
+
+				// 	colors.push( clr.r, clr.g, clr.b );
+
+				// 	//uv.push( i, i++, i++ );
+
+
+				// }
+
+				// var geometry = new THREE.BufferGeometry();
+				// let maxX = 5;
+				// let maxY = 5;
+				// let maxZ = 5;
+				// for ( let x = 0; x < maxX; x++ ) {
+				// 	for ( let y = 0; y < maxY; y++ ) {
+				// 		for( let z = 0; z < maxZ; z++ ) {
+				// 			positions.push((x/maxX) - 0.5, (y/maxY) - 0.5, (z/maxZ) - 0.5 );
+				// 			if(z%2 === 0){
+				// 				uv.push( 0, 0 );
+				// 			}	else{
+				// 				uv.push( 0, 1 );
+				// 			}
+
+				// 		}
+				// 	}
+				// }
+				// geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( positions, 3 ) );
+				// //geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
+				// geometry.setAttribute( 'uv', new THREE.Float32BufferAttribute( uv, 2 ) );
+
+
+				let geometry = new THREE.PlaneBufferGeometry(10,10,20,20);
+				// oon wireframe para cambiar sus attributes uv
+				// geometry.attributes.uv.array.forEach( ( element ) => {
+				// 		//console.log(element)
+
+				// 	});
+
+
+				const uniforms = {};
+
+				const vertexShader = `
+					void main() {
+					  gl_Position = projectionMatrix *
+					              modelViewMatrix *
+					              vec4(position, 1.0);
+					}	
+				`;
+
+				const fragmentShaderr = `
+					void main() {
+						gl_FragColor = vec4(1.0,0.0,1.0,1.0);
+					}			
+				`;
+
+
+
+				Promise.all([
+				    loadTextureVideo('video'),
+				    ])
+				  .then(result => {
+
+				  	let [ texture ] = result;
+				
+				  	/*var material = new THREE.PointsMaterial( { map: texture } );
+				  	var mesh = new THREE.Points( geometry, material );
+					scene.add( mesh );*/
+
+					var material = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide, wireFrame: true } );
+				  	var mesh = new THREE.Mesh( geometry, material );
+				  	scene.add( mesh );
+
+
+					
+
+				})
+				  .then(null, (err) => {
+				    console.error("Got error");
+				    console.error(err.stack);
+				  })
+				  .then(() => {
+				  });
+
+
+				// var material = new THREE.PointsMaterial( { size: 4, vertexColors: true, depthTest: false, sizeAttenuation: false, map: texture } );
+
+				// var mesh = new THREE.Points( geometry, material );
+				// scene.add( mesh );
+
+				renderer = new THREE.WebGLRenderer( { preserveDrawingBuffer: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				//renderer.autoClearColor = false;
+				container.appendChild( renderer.domElement );
+
+				const controls = new OrbitControls( camera, renderer.domElement );
+
+				stats = new Stats();
+				container.appendChild( stats.dom );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+
+			function loadTextureVideo( idDomVideo ) {
+			  return new Promise((resolve, rejected) => {
+
+			    const video = document.getElementById( idDomVideo );
+			    //video.muted = true;
+			    video.play();
+			    video.muted = true;
+			    
+			    const textureVideo = new THREE.VideoTexture( video );
+			    textureVideo.minFilter = THREE.LinearFilter;
+			    textureVideo.magFilter = THREE.LinearFilter;
+			    textureVideo.format = THREE.RGBFormat;
+
+			    resolve(textureVideo);
+
+			  });
+			}
+
+			function change_uvs( geometry, unitx, unity, offsetx, offsety ) {
+
+				let uvs = geometry.attributes.uv.array;
+
+				for ( let i = 0; i < uvs.length; i += 2 ) {
+
+					uvs[ i ] = ( uvs[ i ] + offsetx ) * unitx;
+					uvs[ i + 1 ] = ( uvs[ i + 1 ] + offsety ) * unity;
+
+				}
+
+			}
+
+
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+
+				render();
+				stats.update();
+
+			}
+
+			function render() {
+
+				scene.rotation.y = Date.now() / 2000;
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
+</html>
