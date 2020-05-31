@@ -145,7 +145,7 @@ function loadPromises() {
 		diffuse: {  value: new THREE.Color(0xffffff) },
 		iGlobalTime: {  value: 0 },
 		}),
-		FlatShading: true,
+		//FlatShading: true,
 		lights: true,
 		morphTargets: true,
 		defines: {

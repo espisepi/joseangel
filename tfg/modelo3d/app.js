@@ -44,7 +44,7 @@ function main() {
     controls.dampingFactor = 0.1;
     controls.autoRotate = false; // Toggle this if you'd like the chair to automatically rotate
     controls.autoRotateSpeed = 0.2; // 30
-    controls.maxDistance = 100;
+    controls.maxDistance = 50;
     controls.minDistance = 10;
 
 
@@ -143,14 +143,20 @@ function createLights() {
 function createFloor(){
 
 	const floorGeometry = new THREE.PlaneGeometry(
-            1000,
-            1000,
+            100,
+            100,
             1,
             1
     );
+
+    const texture = new THREE.TextureLoader().load( 'img/floor2.jpg' );
+    texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set( 8, 8 );
     const floorMaterial = new THREE.MeshPhongMaterial({
         color: 0xffcad4,
-        shininess: 0
+        shininess: 0,
+        map: texture
     });
 
     const floor = new THREE.Mesh( floorGeometry, floorMaterial);

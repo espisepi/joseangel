@@ -21,7 +21,7 @@
 		<div id="container"></div>
 
 		<video id="video"  loop crossOrigin="anonymous" playsinline style="display:none">
-			<source src="textures/charliGarcia.mp4" type='video/mp4; '>
+			<source src="textures/sintel.mp4" type='video/mp4; '>
 		</video>
 
 		<!-- <div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - buffergeometry - indexed</div> -->
@@ -37,6 +37,7 @@
 
 			var camera, scene, renderer, stats;
 
+			var material;
 			var mesh;
 
 			document.getElementById('btn-iniciar').addEventListener('click', () => {
@@ -63,6 +64,40 @@
 
 				//
 
+				//createPlaneMesh();
+
+				//
+
+				loadPromises();
+
+				//
+
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+
+				//
+
+				const controls = new OrbitControls( camera, renderer.domElement );
+
+				//
+
+				stats = new Stats();
+				document.body.appendChild( stats.dom );
+
+				//
+
+				// var gui = new GUI();
+				// gui.add( material, 'wireframe' );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function createPlaneMesh(texture) {
 				var geometry = new THREE.BufferGeometry();
 
 				var indices = [];
@@ -126,47 +161,49 @@
 				geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normals, 3 ) );
 				geometry.setAttribute( 'color', new THREE.Float32BufferAttribute( colors, 3 ) );
 
-				// var material = new THREE.MeshPhongMaterial( {
+				const uniforms = {
+					videoTexture: { value: texture }
+				};
+				const vertexShader = `
+					varying vec3 vUv;
+
+					void main() {
+					  vUv = position;
+					  gl_Position = projectionMatrix *
+					              modelViewMatrix *
+					              vec4(position, 1.0);
+					}
+				`;
+				const fragmentShader = `
+					varying vec3 vUv;
+					uniform sampler2D textureVideo;
+					void main() {
+						vec4 color1 = texture2D(textureVideo, vUv.xy);
+						gl_FragColor = vec4(vUv.x,color1.r,color1.g,1.0);
+
+   						//gl_FragColor = color1;
+					}
+				`;
+				// material = new THREE.MeshBasicMaterial( {
 				// 	side: THREE.DoubleSide,
-				// 	vertexColors: true
+				// 	//vertexColors: true,
+				// 	map: texture
 				// } );
-				var material = new THREE.MeshBasicMaterial( {
-					side: THREE.DoubleSide,
-					vertexColors: true
-				} );
+
+				material = new THREE.ShaderMaterial({
+					uniforms: uniforms,
+					vertexShader: vertexShader,
+					fragmentShader: fragmentShader,
+					side: THREE.DoubleSide
+				});
+
+				material.needsUpdate = true;
 
 				mesh = new THREE.Mesh( geometry, material );
 				scene.add( mesh );
 
-				//
-
-				loadPromises();
-
-				//
-
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				document.body.appendChild( renderer.domElement );
-
-				//
-
-				const controls = new OrbitControls( camera, renderer.domElement );
-
-				//
-
-				stats = new Stats();
-				document.body.appendChild( stats.dom );
-
-				//
-
 				var gui = new GUI();
 				gui.add( material, 'wireframe' );
-
-				//
-
-				window.addEventListener( 'resize', onWindowResize, false );
-
 			}
 
 			function loadPromises() {
@@ -181,7 +218,7 @@
 				  	var mesh = new THREE.Points( geometry, material );
 					scene.add( mesh );*/
 
-					mesh.material.map = texture;
+					createPlaneMesh(texture);
 
 				})
 				  .then(null, (err) => {
@@ -233,9 +270,10 @@
 			function render() {
 
 				var time = Date.now() * 0.001;
-
-				mesh.rotation.x = time * 0.25;
-				mesh.rotation.y = time * 0.5;
+				if(mesh){
+					// mesh.rotation.x = time * 0.25;
+					// mesh.rotation.y = time * 0.5;
+				}
 
 				renderer.render( scene, camera );
 
