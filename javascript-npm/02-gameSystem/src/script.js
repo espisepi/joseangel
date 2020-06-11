@@ -91,6 +91,7 @@ function main() {
   }
 
   const gameObjectManager = new GameObjectManager();
+  
   function init() {
   	const loadingElem = document.querySelector('#loading');
     loadingElem.style.display = 'none';
@@ -99,6 +100,15 @@ function main() {
 
     const gameObjectPlayer = gameObjectManager.createGameObject(scene, 'player');
     const componentPlayer = gameObjectPlayer.addComponent(PlayerComponent,models["llama"],globals.deltaTime);
+    
+    // for(let i = 0; i < 10; i++){
+    //   const gameObject = gameObjectManager.createGameObject( scene, 'player'+i );
+    //   gameObject.transform.position.x = i + 5;
+    //   gameObject.transform.position.z = Math.sin(i + 5) * 5;
+    //   const component = gameObject.addComponent(PlayerComponent,models["pig"],globals.deltaTime);
+    // }
+    
+
 
     //console.log(models);
 
@@ -168,4 +178,10 @@ function main() {
 
 }
 
-main();
+/* MAIN PRINCIPAL */
+let btn = document.getElementById('btn-iniciar');
+btn.addEventListener('click', () => {
+  let overlay = document.getElementById('overlay');
+  overlay.style.display = 'none';
+  main();
+});

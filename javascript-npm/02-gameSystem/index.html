@@ -2,26 +2,31 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Three.js - Game w/notes</title>
-  <link rel="stylesheet" href="./style.css">
+  <title>02 - GameSystem</title>
+  <!-- <link rel="stylesheet" href="./style.css"> -->
+  <link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/sado-buttons.css">
+	<link rel="stylesheet" href="css/custom.css">
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<canvas id="c" tabindex="1"></canvas>
-    <!-- <div id="ui">
-      <div id="left"><img src="https://threejsfundamentals.org/threejs/resources/images/left.svg"></div>
-      <div style="flex: 0 0 40px;"></div>
-      <div id="right"><img src="https://threejsfundamentals.org/threejs/resources/images/right.svg"></div>
-    </div> -->
-    <div id="loading">
-      <div>
-        <div>...loading...</div>
-        <div class="progress"><div id="progressbar"></div></div>
-      </div>
-    </div>
-    <div id="labels"></div>
-<!-- partial -->
+
+<div id="overlay" style="z-index: 20;">
+  <a id="btn-iniciar" class="sado-btn sado-style-4" ><span>Iniciar</span></a>
+  <p>Se requiere la interacci&oacuten del usuario para iniciar el video</p>
+</div>
+
+<canvas id="c" tabindex="1" style="z-index: 0;"></canvas>
+
+<div id="loading" style="z-index: 10;">
+  <div>
+    <div>...loading...</div>
+    <div class="progress"><div id="progressbar"></div></div>
+  </div>
+</div>
+<div id="labels"></div>
+
+  <!-- scripts -->
   <script type="module" src="./src/script.js"></script>
 
 </body>
