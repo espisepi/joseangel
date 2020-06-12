@@ -6,9 +6,11 @@ import {GUI} from 'https://threejsfundamentals.org/threejs/../3rdparty/dat.gui.m
 
 import {GameObject} from './gameObject.js';
 import {GameObjectManager} from './gameObjectManager.js';
-import {PlayerComponent} from './components/playerComponent.js';
+import {ModelComponent} from './components/modelComponent.js';
 import { ControlsManager } from './controlsManager.js';
 import { Photos360 } from './photos360.js';
+
+import { HorseModelComponent } from './components/videoclip0/horseModelComponent.js';
 
 
 function main() {
@@ -55,7 +57,9 @@ function main() {
   const models = {
     pig:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Pig.gltf' },
     cow:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Cow.gltf' },
-    llama:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Llama.gltf' },
+    //llama:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Llama.gltf' },
+    
+    llama:  { url: '../assets/models/video_monitor/scene.gltf' },
     pug:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Pug.gltf' },
     sheep:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Sheep.gltf' },
     zebra:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Zebra.gltf' },
@@ -102,13 +106,14 @@ function main() {
     prepModelsAndAnimations();
 
     const gameObjectPlayer = gameObjectManager.createGameObject(scene, 'player');
-    const componentPlayer = gameObjectPlayer.addComponent(PlayerComponent,models["llama"],globals.deltaTime);
+    const modelComponent = gameObjectPlayer.addComponent(HorseModelComponent,models["llama"],globals.deltaTime);
+    
     
     // for(let i = 0; i < 10; i++){
     //   const gameObject = gameObjectManager.createGameObject( scene, 'player'+i );
     //   gameObject.transform.position.x = i + 5;
     //   gameObject.transform.position.z = Math.sin(i + 5) * 5;
-    //   const component = gameObject.addComponent(PlayerComponent,models["pig"],globals.deltaTime);
+    //   const component = gameObject.addComponent(ModelComponent,models["pig"],globals.deltaTime);
     // }
     
 
