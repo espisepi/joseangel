@@ -8,6 +8,7 @@ import {GameObject} from './gameObject.js';
 import {GameObjectManager} from './gameObjectManager.js';
 import {PlayerComponent} from './components/playerComponent.js';
 import { ControlsManager } from './controlsManager.js';
+import { Photos360 } from './photos360.js';
 
 
 function main() {
@@ -29,6 +30,8 @@ function main() {
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color('black');
+
+  const photos360 = new Photos360(renderer, camera, scene);
 
   function addLight(...pos) {
     const color = 0xFFFFFF;
@@ -160,6 +163,7 @@ function main() {
 
     controls.update();
     gameObjectManager.update();
+    photos360.update(camera,scene);
   	renderer.render(scene,camera);
 
   	requestAnimationFrame(render);
