@@ -23,7 +23,7 @@ function main() {
   const near = 0.1;
   const far = 1000;
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  camera.position.set(0, 10, 20);
+  camera.position.set(0, 0, 5);
 
   //const controls = new OrbitControls(camera, renderer.domElement);
   const controls = new ControlsManager('orbitControls', camera, renderer.domElement);
@@ -33,6 +33,11 @@ function main() {
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color('black');
+
+  scene.add(new THREE.Mesh( new THREE.BoxBufferGeometry(5,2,1),
+                        new THREE.MeshBasicMaterial({color:0xff0000})
+                      )
+            )
 
   const photos360 = new Photos360(renderer, camera, scene);
 
@@ -168,6 +173,7 @@ function main() {
     globals.deltaTime = Math.min(globals.time - then, 1 / 20);
     then = globals.time;
 
+    controls.setDeltaTime(globals.deltaTime);
     controls.update();
     gameObjectManager.update();
     photos360.update(camera,scene);

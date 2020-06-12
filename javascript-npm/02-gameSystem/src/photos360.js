@@ -26,11 +26,11 @@ export class Photos360 {
         const camera = this.camera;
         const scene = this.scene;
         const equiManaged = this.equiManaged;
-        document.body.addEventListener('keypress', function (event) {
-            if(event.key === 's'){
-                console.log('start');
-                equiManaged.update( camera, scene );
-            }
-        });
+        // document.body.addEventListener('keypress', function (event) {
+        //     if(event.key === 's'){
+        //         console.log('start');
+        //         equiManaged.update( camera, scene );
+        //     }
+        // });
     }
 } 

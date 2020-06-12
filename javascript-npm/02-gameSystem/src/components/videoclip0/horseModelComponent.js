@@ -10,19 +10,20 @@ export class HorseModelComponent extends ModelComponent {
         //this.skinInstance.setAnimation('Visibility');
 
         this.skinInstance.animRoot.scale.set(0.2,0.2,0.2);
+        //this.skinInstance.animRoot.position.set(new THREE.Vector3(0,0,0));
     }
     update(){
         super.update();
     }
     createTweenAnimations(tweenManager) {
 
-        tweenManager.createTween(this.skinInstance.animRoot.position)
-            .to({x:0.0,y:0.0,z:-400.0}, 3000)
-            .delay(2000)
-            .start();
-        tweenManager.createTween(this.skinInstance.animRoot.rotation)
-            .to({x:0.0,y:-2.0,z:0.0}, 1000)
-            .start();
+        // tweenManager.createTween(this.skinInstance.animRoot.position)
+        //     .to({x:0.0,y:0.0,z:-400.0}, 3000)
+        //     .delay(2000)
+        //     .start();
+        // tweenManager.createTween(this.skinInstance.animRoot.rotation)
+        //     .to({x:0.0,y:-2.0,z:0.0}, 1000)
+        //     .start();
         
         const model = this.skinInstance.model;
         tweenManager.createTween({r:0.0,g:0.0,b:1.0})
