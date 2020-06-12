@@ -11,6 +11,7 @@ import { ControlsManager } from './controlsManager.js';
 import { Photos360 } from './photos360.js';
 
 import { HorseModelComponent } from './components/videoclip0/horseModelComponent.js';
+import { TweenManager } from './tweenManager.js';
 
 
 function main() {
@@ -98,6 +99,7 @@ function main() {
   }
 
   const gameObjectManager = new GameObjectManager();
+  const tweenManager = new TweenManager();
   
   function init() {
   	const loadingElem = document.querySelector('#loading');
@@ -106,7 +108,7 @@ function main() {
     prepModelsAndAnimations();
 
     const gameObjectPlayer = gameObjectManager.createGameObject(scene, 'player');
-    const modelComponent = gameObjectPlayer.addComponent(HorseModelComponent,models["llama"],globals.deltaTime);
+    const modelComponent = gameObjectPlayer.addComponent(HorseModelComponent,models["llama"],globals.deltaTime,tweenManager);
     
     
     // for(let i = 0; i < 10; i++){
@@ -169,6 +171,7 @@ function main() {
     controls.update();
     gameObjectManager.update();
     photos360.update(camera,scene);
+    tweenManager.update();
   	renderer.render(scene,camera);
 
   	requestAnimationFrame(render);
