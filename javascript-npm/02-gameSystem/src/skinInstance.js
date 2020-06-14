@@ -1,4 +1,4 @@
-import {Component} from './component.js';
+import {Component} from './components/component.js';
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 import {SkeletonUtils} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/utils/SkeletonUtils.js';
 

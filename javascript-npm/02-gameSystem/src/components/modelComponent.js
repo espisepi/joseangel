@@ -1,4 +1,4 @@
-import{Component} from '../component.js';
+import{Component} from './component.js';
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 import {FiniteStateMachine} from '../finiteStateMachine.js';
 import {SkinInstance} from '../skinInstance.js';
