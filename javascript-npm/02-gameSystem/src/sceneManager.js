@@ -1,16 +1,19 @@
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
+import {ControlsManager} from './controlsManager.js';
 import {TweenManager} from './tweenManager.js';
 import {GameObjectManager} from './gameObjectManager.js';
 import {HorseModelComponent} from './components/videoclip0/horseModelComponent.js';
 
 export class SceneManager {
-    constructor(scene){
-        this.scene = scene;
-
+    constructor(renderer){
+        this.renderer = renderer;
         const loadingElem = document.querySelector('#loading');
         loadingElem.style.display = 'none';
 
+        this.createScene();
+        this.createCamera();
+        this.createControls();
         this.createLights();
 
         this.gameObjectManager = new GameObjectManager();
@@ -19,6 +22,27 @@ export class SceneManager {
         this.loadModels();
        
 
+    }
+    createScene() {
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color('black');
+
+        this.scene.add(new THREE.Mesh( new THREE.BoxBufferGeometry(5,2,1),
+                                new THREE.MeshBasicMaterial({color:0xff0000})
+                            )
+                    )
+    }
+    createCamera() {
+        const fov = 45;
+        const aspect = 2;  // the canvas default
+        const near = 0.1;
+        const far = 1000;
+        const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+        camera.position.set(0, 0, 5);
+        this.camera = camera;
+    }
+    createControls() {
+        this.controls = new ControlsManager('orbitControls', this.camera, this.renderer.domElement);
     }
     createLights() {
         const scene = this.scene;
@@ -104,6 +128,7 @@ export class SceneManager {
         // make sure delta time isn't too big.
         this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
         this.then = this.globals.time;
+        this.controls.update();
         this.tweenManager.update();
         this.gameObjectManager.update();
     }

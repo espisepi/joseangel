@@ -19,29 +19,7 @@ function main() {
   const canvas = document.querySelector('#c');
   const renderer = new THREE.WebGLRenderer({canvas});
 
-  const fov = 45;
-  const aspect = 2;  // the canvas default
-  const near = 0.1;
-  const far = 1000;
-  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  camera.position.set(0, 0, 5);
-
-  //const controls = new OrbitControls(camera, renderer.domElement);
-  const controls = new ControlsManager('orbitControls', camera, renderer.domElement);
-  //controls.enableKeys = true;
-  //controls.target.set(0, 5, 0);
-  //controls.update();
-
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color('black');
-
-  scene.add(new THREE.Mesh( new THREE.BoxBufferGeometry(5,2,1),
-                        new THREE.MeshBasicMaterial({color:0xff0000})
-                      )
-            )
-  const sceneManager = new SceneManager(scene);
-
-  const photos360 = new Photos360(renderer, camera, scene);
+  const sceneManager = new SceneManager(renderer);
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
@@ -56,6 +34,8 @@ function main() {
 
   
   function render(time) {
+    const camera = sceneManager.camera;
+    const scene = sceneManager.scene;
 
     if (resizeRendererToDisplaySize(renderer)) {
       const canvas = renderer.domElement;
@@ -63,23 +43,13 @@ function main() {
       camera.updateProjectionMatrix();
     }
 
-    controls.update();
+    
     sceneManager.update(time);
-    photos360.update(camera,scene);
   	renderer.render(scene,camera);
 
   	requestAnimationFrame(render);
   }
-
-
-
-
-
-
-
-
-
-
+  
   requestAnimationFrame(render);
 
 }
