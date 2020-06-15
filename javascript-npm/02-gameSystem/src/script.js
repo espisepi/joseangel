@@ -32,26 +32,22 @@ function main() {
     return needResize;
   }
 
-  
   function render(time) {
-    const camera = sceneManager.camera;
-    const scene = sceneManager.scene;
+    const camera = sceneManager.clip.camera;
+    const scene = sceneManager.clip.scene;
 
     if (resizeRendererToDisplaySize(renderer)) {
       const canvas = renderer.domElement;
       camera.aspect = canvas.clientWidth / canvas.clientHeight;
       camera.updateProjectionMatrix();
     }
-
     
     sceneManager.update(time);
   	renderer.render(scene,camera);
 
   	requestAnimationFrame(render);
   }
-  
   requestAnimationFrame(render);
-
 }
 
 /* MAIN PRINCIPAL */
