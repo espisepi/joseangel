@@ -1,9 +1,9 @@
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
-import {ControlsManager} from './controlsManager.js';
-import {TweenManager} from './tweenManager.js';
-import {GameObjectManager} from './gameObjectManager.js';
-import {HorseModelComponent} from './components/videoclip0/horseModelComponent.js';
+import {ControlsManager} from '../controlsManager.js';
+import {TweenManager} from '../tweenManager.js';
+import {GameObjectManager} from '../gameObjectManager.js';
+import {HorseModelComponent} from '../components/videoclip0/horseModelComponent.js';
 
 export class Clip0 {
     constructor(renderer){

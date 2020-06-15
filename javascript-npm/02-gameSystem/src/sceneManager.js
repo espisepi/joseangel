@@ -1,4 +1,4 @@
-import {Clip0} from './clip0.js';
+import {Clip0} from './clips/clip0.js';
 
 export class SceneManager {
     constructor(renderer) {
