@@ -39,19 +39,9 @@ function main() {
                         new THREE.MeshBasicMaterial({color:0xff0000})
                       )
             )
+  const sceneManager = new SceneManager(scene);
 
   const photos360 = new Photos360(renderer, camera, scene);
-
-  function addLight(...pos) {
-    const color = 0xFFFFFF;
-    const intensity = 1;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(...pos);
-    scene.add(light);
-    scene.add(light.target);
-  }
-  addLight(5, 5, 2);
-  addLight(-5, 5, 5);
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
@@ -64,7 +54,7 @@ function main() {
     return needResize;
   }
 
-  const sceneManager = new SceneManager(scene);
+  
   function render(time) {
 
     if (resizeRendererToDisplaySize(renderer)) {

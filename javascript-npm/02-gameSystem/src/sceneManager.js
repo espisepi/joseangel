@@ -11,12 +11,27 @@ export class SceneManager {
         const loadingElem = document.querySelector('#loading');
         loadingElem.style.display = 'none';
 
+        this.createLights();
+
         this.gameObjectManager = new GameObjectManager();
         this.tweenManager = new TweenManager();
           
         this.loadModels();
        
 
+    }
+    createLights() {
+        const scene = this.scene;
+        function addLight(...pos) {
+            const color = 0xFFFFFF;
+            const intensity = 1;
+            const light = new THREE.DirectionalLight(color, intensity);
+            light.position.set(...pos);
+            scene.add(light);
+            scene.add(light.target);
+          }
+          addLight(5, 5, 2);
+          addLight(-5, 5, 5);
     }
     loadModels() {
 
