@@ -1,4 +1,5 @@
 import {Clip0} from './clips/clip0.js';
+import {Clip1} from './clips/clip1.js';
 
 export class SceneManager {
     constructor(renderer) {
@@ -7,7 +8,7 @@ export class SceneManager {
     }
     setClip(number) {
         if(number === 0){
-            this.clip = new Clip0(this.renderer);
+            this.clip = new Clip1(this.renderer);
         }
     }
     update(time) {

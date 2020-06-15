@@ -19,9 +19,9 @@ export class GameObject {
     getComponent(ComponentType) {
       return this.components.find(c => c instanceof ComponentType);
     }
-    update() {
+    update(globals) {
       for (const component of this.components) {
-        component.update();
+        component.update(globals);
       }
     }
   }

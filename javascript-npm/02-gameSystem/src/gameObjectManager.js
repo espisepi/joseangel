@@ -13,7 +13,7 @@ export class GameObjectManager {
     removeGameObject(gameObject) {
       this.gameObjects.remove(gameObject);
     }
-    update() {
-      this.gameObjects.forEach(gameObject => gameObject.update());
+    update(globals) {
+      this.gameObjects.forEach(gameObject => gameObject.update(globals));
     }
   }
