@@ -8,13 +8,21 @@ export class Clip1Tween {
         this.tweenManager = tweenManager;
 
         const cubeWireframeComponent = objectsToAnimate.cubeWireframeComponent;
-        this.changeColorLoop(cubeWireframeComponent.cube.material.color, 1000);
+        this.changeColorLoop('colorCubeWireframe',cubeWireframeComponent.cube.material.color, 1000);
 
     }
-    changeColorLoop( color, time ) {
+    changeColorLoop( nameInterval, color, time ) {
+        
         const self = this;
-        setInterval(function(){
+        const intervalId = setInterval(function(){
             EspinacoTweenUtilities.changeColor(self.tweenManager, color, time);
          }, 1000);
+
+        setTimeout(
+            clearInterval,
+            5000,
+            intervalId
+            );
     }
+
 }
