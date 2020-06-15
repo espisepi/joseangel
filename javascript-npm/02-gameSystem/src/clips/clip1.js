@@ -112,7 +112,6 @@ export class Clip1 {
         */
         const scene = this.scene;
         const gameObjectManager = this.gameObjectManager;
-        const globals = this.globals;
         const tweenManager = this.tweenManager;
         
         function modelsLoaded() {
@@ -121,6 +120,7 @@ export class Clip1 {
 
             const gameObjectPlayer = gameObjectManager.createGameObject(scene, 'player');
             const cubeWireframeComponent = gameObjectPlayer.addComponent(CubeWireframeComponent);
+            
             const objectsToAnimate = {
                 cubeWireframeComponent
             };
