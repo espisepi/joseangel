@@ -28,14 +28,12 @@ export class ControlsManager {
             console.log(joystick);
         }
     }
-    setDeltaTime(deltaTime) {
-        this.deltaTime = deltaTime;
-    }
-    update() {
-        if(this.deltaTime){
-            this.controls.update(this.deltaTime);
-        }else{
-            this.controls.update();
-        }
+    update(deltaTime) {
+        this.controls.update(deltaTime);
+        // if(this.deltaTime){
+        //     this.controls.update(this.deltaTime);
+        // }else{
+        //     this.controls.update();
+        // }
     }
 }

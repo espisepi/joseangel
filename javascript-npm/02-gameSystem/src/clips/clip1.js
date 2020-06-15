@@ -130,7 +130,7 @@ export class Clip1 {
         // make sure delta time isn't too big.
         this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
         this.then = this.globals.time;
-        this.controls.update();
+        this.controls.update(this.globals.deltaTime);
         this.tweenManager.update();
         this.gameObjectManager.update(this.globals);
     }
