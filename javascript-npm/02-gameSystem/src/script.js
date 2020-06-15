@@ -53,102 +53,6 @@ function main() {
   addLight(5, 5, 2);
   addLight(-5, 5, 5);
 
-  /* ************* LOADERS ***************** */
-
-  const manager = new THREE.LoadingManager();
-  manager.onLoad = init;
-  const progressbarElem = document.querySelector('#progressbar');
-  manager.onProgress = (url, itemsLoaded, itemsTotal) => {
-    progressbarElem.style.width = `${itemsLoaded / itemsTotal * 100 | 0}%`;
-  };
-  const models = {
-    pig:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Pig.gltf' },
-    cow:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Cow.gltf' },
-    //llama:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Llama.gltf' },
-    
-    llama:  { url: '../assets/models/video_monitor/scene.gltf' },
-    pug:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Pug.gltf' },
-    sheep:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Sheep.gltf' },
-    zebra:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Zebra.gltf' },
-    horse:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Horse.gltf' },
-    knight: { url: 'https://threejsfundamentals.org/threejs/resources/models/knight/KnightCharacter.gltf' },
-  };
-  const globals = {
-    time: 0.0,
-    deltaTime: 0.0
-  };
-
-  const gltfLoader = new GLTFLoader(manager);
-  for (const model of Object.values(models)) {
-    gltfLoader.load(model.url, (gltf) => {
-      model.gltf = gltf;
-    });
-  }
-
-  function prepModelsAndAnimations() {
-    const box = new THREE.Box3();
-    const size = new THREE.Vector3();
-    Object.values(models).forEach(model => {
-      box.setFromObject(model.gltf.scene);
-      box.getSize(size);
-      model.size = size.length();
-      const animsByName = {};
-      model.gltf.animations.forEach((clip) => {
-        animsByName[clip.name] = clip;
-        // Should really fix this in .blend file
-        if (clip.name === 'Walk') {
-          clip.duration /= 2;
-        }
-      });
-      model.animations = animsByName;
-    });
-  }
-
-  //const gameObjectManager = new GameObjectManager();
-  
-  let sceneManager;
-  
-  function init() {
-  	const loadingElem = document.querySelector('#loading');
-    loadingElem.style.display = 'none';
-    
-    prepModelsAndAnimations();
-
-  
-    
-    sceneManager = new SceneManager(scene,globals,models);
-    
-    // for(let i = 0; i < 10; i++){
-    //   const gameObject = gameObjectManager.createGameObject( scene, 'player'+i );
-    //   gameObject.transform.position.x = i + 5;
-    //   gameObject.transform.position.z = Math.sin(i + 5) * 5;
-    //   const component = gameObject.addComponent(ModelComponent,models["pig"],globals.deltaTime);
-    // }
-    
-
-
-    //console.log(models);
-
-    /* ----- MAIN PRINCIPAL ------*/
-    
-
-
-
-
-
-
-  }
-
-
-
-  /* ************* -LOADERS- **************** */
-
-
-
-
-
-
-
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
     const width = canvas.clientWidth;
@@ -160,7 +64,7 @@ function main() {
     return needResize;
   }
 
-  let then = 0;
+  const sceneManager = new SceneManager(scene);
   function render(time) {
 
     if (resizeRendererToDisplaySize(renderer)) {
@@ -169,17 +73,8 @@ function main() {
       camera.updateProjectionMatrix();
     }
 
-    // convert to seconds
-    globals.time = time * 0.001;
-    // make sure delta time isn't too big.
-    globals.deltaTime = Math.min(globals.time - then, 1 / 20);
-    then = globals.time;
-
-    controls.setDeltaTime(globals.deltaTime);
     controls.update();
-    if(sceneManager){
-      sceneManager.update();
-    }
+    sceneManager.update(time);
     photos360.update(camera,scene);
   	renderer.render(scene,camera);
 
