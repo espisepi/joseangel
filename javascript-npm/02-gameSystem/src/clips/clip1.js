@@ -5,7 +5,7 @@ import {TweenManager} from '../tweenManager.js';
 import {GameObjectManager} from '../gameObjectManager.js';
 import {HorseModelComponent} from '../components/videoclip0/horseModelComponent.js';
 import { CubeWireframeComponent } from '../components/videoclip0/cubeWireframeComponent.js';
-
+import { Clip1Tween } from './clip1Tween.js';
 export class Clip1 {
     constructor(renderer){
         this.renderer = renderer;
@@ -120,7 +120,11 @@ export class Clip1 {
             prepModelsAndAnimations();
 
             const gameObjectPlayer = gameObjectManager.createGameObject(scene, 'player');
-            const cubeWireframeComponent = gameObjectPlayer.addComponent(CubeWireframeComponent,tweenManager);
+            const cubeWireframeComponent = gameObjectPlayer.addComponent(CubeWireframeComponent);
+            const objectsToAnimate = {
+                cubeWireframeComponent
+            };
+            const clip1Tween = new Clip1Tween(tweenManager, objectsToAnimate);
         }
     }
     
