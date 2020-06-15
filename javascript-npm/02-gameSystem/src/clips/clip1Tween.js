@@ -12,11 +12,11 @@ export class Clip1Tween {
 
     }
     changeColorLoop( nameInterval, color, time ) {
-        
+
         const self = this;
         const intervalId = setInterval(function(){
             EspinacoTweenUtilities.changeColor(self.tweenManager, color, time);
-         }, 1000);
+         }, time);
 
         setTimeout(
             clearInterval,
