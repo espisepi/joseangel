@@ -7,13 +7,10 @@ export class SceneManager {
     constructor(renderer, withControls = true) {
         this.renderer = renderer;
         this.withControls = withControls;
-        this.setClip(0);
+        //this.clip = new Clip1(this.renderer, this.withControls);
+        this.clip = new Clip1(this.renderer, this.withControls);
     }
-    setClip(number) {
-        if(number === 0){
-            this.clip = new Clip1(this.renderer, this.withControls);
-        }
-    }
+
     update(time) {
         this.clip.update(time);
     }
