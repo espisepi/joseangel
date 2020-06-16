@@ -40,7 +40,6 @@ function main() {
     }
     
     sceneManager.update(time);
-  	renderer.render(sceneManager.clip.scene,sceneManager.clip.camera);
 
   	requestAnimationFrame(render);
   }

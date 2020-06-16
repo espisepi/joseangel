@@ -13,6 +13,7 @@ export class SceneManager {
 
     update(time) {
         this.clip.update(time);
+        this.renderer.render(this.clip.scene, this.clip.camera);
     }
 
 }
