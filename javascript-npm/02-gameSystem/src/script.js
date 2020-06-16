@@ -8,7 +8,6 @@ import {GameObject} from './gameObject.js';
 import {GameObjectManager} from './gameObjectManager.js';
 import {ModelComponent} from './components/modelComponent.js';
 import { ControlsManager } from './controlsManager.js';
-import { Photos360 } from './photos360.js';
 
 import { HorseModelComponent } from './components/videoclip0/horseModelComponent.js';
 import { TweenManager } from './tweenManager.js';

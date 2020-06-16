@@ -1,3 +1,5 @@
+/*
+
 import {CubemapToEquirectangular} from '../../node_modules/three.cubemap-to-equirectangular/build/CubemapToEquirectangular.js';
 //https://github.com/spite/THREE.CubemapToEquirectangular
 // Probar el unmanaged a ver si asi no se congela mi canvas principal
@@ -34,3 +36,5 @@ export class Photos360 {
         // });
     }
 } 
+
+*/
