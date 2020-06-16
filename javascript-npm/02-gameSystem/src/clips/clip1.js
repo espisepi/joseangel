@@ -3,9 +3,11 @@ import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/thre
 import {ControlsManager} from '../controlsManager.js';
 import {TweenManager} from '../tweenManager.js';
 import {GameObjectManager} from '../gameObjectManager.js';
-import {HorseModelComponent} from '../components/videoclip0/horseModelComponent.js';
 import { CubeWireframeComponent } from '../components/videoclip0/cubeWireframeComponent.js';
 import { Clip1Tween } from './clip1Tween.js';
+import { PlaneVideoComponent } from '../components/videoclip0/planeVideoComponent.js';
+
+
 export class Clip1 {
     constructor(renderer){
         this.renderer = renderer;
@@ -73,11 +75,28 @@ export class Clip1 {
             horse:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Horse.gltf' },
             knight: { url: 'https://threejsfundamentals.org/threejs/resources/models/knight/KnightCharacter.gltf' },
           };
+        
         this.globals = {
             time: 0.0,
             deltaTime: 0.0
         };
         
+        const video = document.getElementById( 'video' );
+        video.muted = true;
+        video.play();
+        const texture = new THREE.VideoTexture( video );
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBFormat;
+        this.textures = {
+            videoTexture:
+                {
+                    texture: texture,
+                    domElement: video
+                },
+        };
+        
+
         const gltfLoader = new GLTFLoader(manager);
         for (const model of Object.values(this.models)) {
         gltfLoader.load(model.url, (gltf) => {
@@ -86,7 +105,6 @@ export class Clip1 {
         }
 
         const models = this.models;
-
         function prepModelsAndAnimations() {
             const box = new THREE.Box3();
             const size = new THREE.Vector3();
@@ -106,25 +124,33 @@ export class Clip1 {
             });
         }
 
-        /*
-            La propiedad "this" dentro del metodo modelsLoaded se refiere al objeto LoadingManager
-            por lo tanto no podemos utilizarla, asi que utilizamos variables const
-        */
+        
         const scene = this.scene;
         const gameObjectManager = this.gameObjectManager;
         const tweenManager = this.tweenManager;
+        const self = this;
         
         function modelsLoaded() {
+
+            /* 
+                Aqui tenemos todas las texturas y modelos cargados en memoria.
+                La propiedad "this" dentro del metodo modelsLoaded se refiere al objeto LoadingManager
+                por lo tanto no podemos utilizarla, asi que utilizamos variables const
+            */
 
             prepModelsAndAnimations();
 
             const gameObjectPlayer = gameObjectManager.createGameObject(scene, 'player');
             const cubeWireframeComponent = gameObjectPlayer.addComponent(CubeWireframeComponent);
-            
             const objectsToAnimate = {
                 cubeWireframeComponent
             };
             const clip1Tween = new Clip1Tween(tweenManager, objectsToAnimate);
+
+            const gameObjectPlaneVideo = gameObjectManager.createGameObject(scene, 'planeVideo');
+            const planeVideoComponent = gameObjectPlaneVideo.addComponent(PlaneVideoComponent, self.textures.videoTexture);
+
+
         }
     }
     
