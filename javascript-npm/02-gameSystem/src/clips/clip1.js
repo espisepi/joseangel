@@ -186,4 +186,8 @@ export class Clip1 {
         this.tweenManager.update();
         this.gameObjectManager.update(this.globals);
     }
+
+    render() {
+        this.renderer.render(this.scene,this.camera);
+    }
 }

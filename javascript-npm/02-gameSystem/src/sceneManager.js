@@ -9,11 +9,12 @@ export class SceneManager {
         this.withControls = withControls;
         //this.clip = new Clip1(this.renderer, this.withControls);
         this.clip = new Clip1(this.renderer, this.withControls);
+        this.clip2 = new Clip0(this.renderer, this.withControls);
     }
 
     update(time) {
         this.clip.update(time);
-        this.renderer.render(this.clip.scene, this.clip.camera);
+        this.clip.render();
     }
 
 }

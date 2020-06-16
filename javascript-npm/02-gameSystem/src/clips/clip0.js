@@ -132,4 +132,8 @@ export class Clip0 {
         this.tweenManager.update();
         this.gameObjectManager.update();
     }
+
+    render() {
+        this.renderer.render(this.scene,this.camera);
+    }
 }
