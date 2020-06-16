@@ -1,16 +1,21 @@
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 import { GUI } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/libs/dat.gui.module.js';
-/* Propiedades de transition
+/*  Propiedades de transition
+    this.scene : La escena de la transition (el plano ocupando la pantalla con ShaderMaterial)
+    this.cameraOrtho: La camara de la transition
+    this.scenes: Las escenas que se van a mostrar con la transicion
+    this.renderer: El renderer creado en script.js
 
-this.scene : La escena de la transition (el plano ocupando la pantalla con ShaderMaterial)
-this.cameraOrtho: La camara de la transition
-this.scenes: Las escenas que se van a mostrar con la transicion
-this.renderer: El renderer creado en script.js
+    this.quadMaterial: El ShaderMaterial del plano (la responsable de la transicion)
+    this.quad: El mesh del plano de la transicion
 
-this.quadMaterial: El ShaderMaterial del plano (la responsable de la transicion)
-this.quad: El mesh del plano de la transicion
-
-
+    Metodos:
+    setTransition(value)
+    setTextureThreshold(value)
+    useTexture(boolean)
+    setTexture(indice)
+    setSceneA(scene)
+    setSceneB(scene)
 */
 export class Transition {
     constructor(renderer,...scenes) {
@@ -22,7 +27,28 @@ export class Transition {
         //this.initGUI();
         this.clock = new THREE.Clock();
     }
+    setSceneA(scene) {
+        this.scenes[0] = scene;
+        this.updateTextures();
+    }
+    setSceneB(scene) {
+        this.scenes[1] = scene;
+        this.updateTextures();
+    }
+    setTransition( value ) {
+        //this.quadmaterial.uniforms.mixRatio.value // no funciona no se por que
+        this.transitionParams.transition = value;
+    }
+    setTextureThreshold( value ) {
+        this.quadmaterial.uniforms.threshold.value = value;
+    };
+    useTexture( value ) {
+        this.quadmaterial.uniforms.useTexture.value = value ? 1 : 0;
+    };
 
+    setTexture = function ( i ) {
+        this.quadmaterial.uniforms.tMixTexture.value = this.textures[ i ];
+    };
     initGUI() {
         const transitionParams = this.transitionParams;
         const gui = new GUI();
@@ -53,7 +79,7 @@ export class Transition {
             "transitionSpeed": 2.0,
             "texture": 5,
             "loopTexture": true,
-            "animateTransition": true,
+            "animateTransition": false,
             "textureThreshold": 0.3
         };
     }
@@ -160,92 +186,62 @@ export class Transition {
         this.scene.add( this.quad );
         
     }
-    setTextureThreshold( value ) {
-        this.quadmaterial.uniforms.threshold.value = value;
-    };
 
-    useTexture( value ) {
-        this.quadmaterial.uniforms.useTexture.value = value ? 1 : 0;
-    };
+    render(time) {
+        
+        const transitionParams = this.transitionParams;
+        const renderer = this.renderer;
+        const sceneA = this.scenes[0];
+        const sceneB = this.scenes[1];
 
-    setTexture = function ( i ) {
-        this.quadmaterial.uniforms.tMixTexture.value = this.textures[ i ];
-    };
+        if ( transitionParams.animateTransition ) {
+            this.animateTransition();
+        }
 
-    render() {
+        this.quadmaterial.uniforms.mixRatio.value = transitionParams.transition;
+
         // Prevent render both scenes when it's not necessary
-        // if ( transitionParams.transition == 0 ) {
+        if ( transitionParams.transition == 0 ) {
 
-        //     this.sceneB.render( delta, false );
+            sceneB.render( false );
 
-        // } else if ( transitionParams.transition == 1 ) {
+        } else if ( transitionParams.transition == 1 ) {
 
-        //     this.sceneA.render( delta, false );
+            sceneA.render( false );
 
-        // } else {
+        } else {
 
             // When 0<transition<1 render transition between two scenes
-            // const renderer = this.renderer;
-            // this.scenes[0].render(  true );
-            // this.scenes[1].render(  true );
-            // renderer.setRenderTarget( null );
-            // renderer.clear();
-            // renderer.render( this.scene, this.cameraOrtho );
 
-            // this.quadmaterial.uniforms.mixRatio.value = 0.29;
+            sceneA.render( true );
+            sceneB.render( true );
+            renderer.setRenderTarget( null );
+            renderer.clear();
+            renderer.render( this.scene, this.cameraOrtho );
 
-        // }
+        }
 
-    // Transition animation
-    const transitionParams = this.transitionParams;
-    const renderer = this.renderer;
-    const sceneA = this.scenes[0];
-    const sceneB = this.scenes[1];
 
-    if ( transitionParams.animateTransition ) {
+    }
 
+    animateTransition() {
+        const transitionParams = this.transitionParams;
         var t = ( 1 + Math.sin( transitionParams.transitionSpeed * this.clock.getElapsedTime() / Math.PI ) ) / 2;
-        transitionParams.transition = THREE.MathUtils.smoothstep( t, 0.3, 0.7 );
+            transitionParams.transition = THREE.MathUtils.smoothstep( t, 0.3, 0.7 );
 
-        // Change the current alpha texture after each transition
-        if ( transitionParams.loopTexture && ( transitionParams.transition == 0 || transitionParams.transition == 1 ) ) {
+            // Change the current alpha texture after each transition
+            if ( transitionParams.loopTexture && ( transitionParams.transition == 0 || transitionParams.transition == 1 ) ) {
 
-            if ( this.needChange ) {
+                if ( this.needChange ) {
 
-                transitionParams.texture = ( transitionParams.texture + 1 ) % this.textures.length;
-                this.quadmaterial.uniforms.tMixTexture.value = this.textures[ transitionParams.texture ];
-                this.needChange = false;
+                    transitionParams.texture = ( transitionParams.texture + 1 ) % this.textures.length;
+                    this.quadmaterial.uniforms.tMixTexture.value = this.textures[ transitionParams.texture ];
+                    this.needChange = false;
 
-            }
+                }
 
-        } else
-            this.needChange = true;
-
-    }
-
-    this.quadmaterial.uniforms.mixRatio.value = transitionParams.transition;
-
-    // Prevent render both scenes when it's not necessary
-    if ( transitionParams.transition == 0 ) {
-
-        sceneB.render( false );
-
-    } else if ( transitionParams.transition == 1 ) {
-
-        sceneA.render( false );
-
-    } else {
-
-        // When 0<transition<1 render transition between two scenes
-
-        sceneA.render( true );
-        sceneB.render( true );
-        renderer.setRenderTarget( null );
-        renderer.clear();
-        renderer.render( this.scene, this.cameraOrtho );
-
-    }
-
+            } else
+                this.needChange = true;
 
     }
     

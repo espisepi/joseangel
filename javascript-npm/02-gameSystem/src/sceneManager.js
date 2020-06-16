@@ -12,6 +12,7 @@ export class SceneManager {
         this.clip = new Clip1(this.renderer, this.withControls);
         this.clip2 = new Clip0(this.renderer, this.withControls);
         this.transition = new Transition(renderer, this.clip, this.clip2);
+        this.transition.setTransition(0.2);
     }
 
     update(time) {
