@@ -9,14 +9,17 @@ import { PlaneVideoComponent } from '../components/videoclip0/planeVideoComponen
 
 
 export class Clip1 {
-    constructor(renderer){
+    constructor(renderer, withControls ){
         this.renderer = renderer;
+        
         const loadingElem = document.querySelector('#loading');
         loadingElem.style.display = 'none';
 
         this.createScene();
         this.createCamera();
-        this.createControls();
+        if(withControls){
+            this.createControls();
+        }
         this.createLights();
 
         this.gameObjectManager = new GameObjectManager();
@@ -95,7 +98,23 @@ export class Clip1 {
                     domElement: video
                 },
         };
-        
+
+        // Load Sound mp3 of the music
+        // Usar loaders promises (gatacattana)
+        // tener un metodo al que se llama cuando se han cargado models y audios con promesas asincronas
+        this.audios = {
+            audioPrincipal: {url: '../../../assets/sounds/masnaIsraelb.mp3'}
+        }
+        const audioLoader = new THREE.AudioLoader(manager);
+        for (const audio of Object.values(this.audios)) {
+            audioLoader.load(
+                audio.url,
+                (audioBuffer) => {
+                    audio.buffer = audioBuffer;
+                }
+            )
+        }
+
 
         const gltfLoader = new GLTFLoader(manager);
         for (const model of Object.values(this.models)) {
@@ -150,6 +169,7 @@ export class Clip1 {
             const gameObjectPlaneVideo = gameObjectManager.createGameObject(scene, 'planeVideo');
             const planeVideoComponent = gameObjectPlaneVideo.addComponent(PlaneVideoComponent, self.textures.videoTexture);
 
+            console.log(self.audios.audioPrincipal.buffer);
 
         }
     }
@@ -160,7 +180,9 @@ export class Clip1 {
         // make sure delta time isn't too big.
         this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
         this.then = this.globals.time;
-        this.controls.update(this.globals.deltaTime);
+        if(this.controls){
+            this.controls.update(this.globals.deltaTime);
+        }
         this.tweenManager.update();
         this.gameObjectManager.update(this.globals);
     }

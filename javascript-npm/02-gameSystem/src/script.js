@@ -33,17 +33,15 @@ function main() {
   }
 
   function render(time) {
-    const camera = sceneManager.clip.camera;
-    const scene = sceneManager.clip.scene;
 
     if (resizeRendererToDisplaySize(renderer)) {
       const canvas = renderer.domElement;
-      camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      camera.updateProjectionMatrix();
+      sceneManager.clip.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      sceneManager.clip.camera.updateProjectionMatrix();
     }
     
     sceneManager.update(time);
-  	renderer.render(scene,camera);
+  	renderer.render(sceneManager.clip.scene,sceneManager.clip.camera);
 
   	requestAnimationFrame(render);
   }

@@ -2,13 +2,14 @@ import {Clip0} from './clips/clip0.js';
 import {Clip1} from './clips/clip1.js';
 
 export class SceneManager {
-    constructor(renderer) {
+    constructor(renderer, withControls = true) {
         this.renderer = renderer;
+        this.withControls = withControls;
         this.setClip(0);
     }
     setClip(number) {
         if(number === 0){
-            this.clip = new Clip1(this.renderer);
+            this.clip = new Clip1(this.renderer, this.withControls);
         }
     }
     update(time) {
