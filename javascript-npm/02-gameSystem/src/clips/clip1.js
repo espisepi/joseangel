@@ -9,11 +9,17 @@ import { PlaneVideoComponent } from '../components/videoclip0/planeVideoComponen
 
 
 export class Clip1 {
-    constructor(renderer, withControls ){
+    constructor(renderer, withControls, globals ){
         this.renderer = renderer;
         
         const loadingElem = document.querySelector('#loading');
         loadingElem.style.display = 'none';
+
+         // this.globals = {
+        //     time: 0.0,
+        //     deltaTime: 0.0
+        // };
+        this.globals = globals;
 
         this.createRenderTarget();
         this.createScene();
@@ -84,11 +90,6 @@ export class Clip1 {
             horse:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Horse.gltf' },
             knight: { url: 'https://threejsfundamentals.org/threejs/resources/models/knight/KnightCharacter.gltf' },
           };
-        
-        this.globals = {
-            time: 0.0,
-            deltaTime: 0.0
-        };
         
         const video = document.getElementById( 'video' );
         video.muted = true;
@@ -181,11 +182,6 @@ export class Clip1 {
     }
     
     update(time) {
-        // convert to seconds
-        this.globals.time = time * 0.001;
-        // make sure delta time isn't too big.
-        this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
-        this.then = this.globals.time;
         if(this.controls){
             this.controls.update(this.globals.deltaTime);
         }

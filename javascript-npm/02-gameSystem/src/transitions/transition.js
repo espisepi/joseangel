@@ -194,6 +194,9 @@ export class Transition {
         const sceneA = this.scenes[0];
         const sceneB = this.scenes[1];
 
+        sceneA.update(time);
+        sceneB.update(time);
+
         if ( transitionParams.animateTransition ) {
             this.animateTransition();
         }

@@ -6,10 +6,12 @@ import {GameObjectManager} from '../gameObjectManager.js';
 import {HorseModelComponent} from '../components/videoclip0/horseModelComponent.js';
 
 export class Clip0 {
-    constructor(renderer){
+    constructor(renderer, withControls, globals){
         this.renderer = renderer;
         const loadingElem = document.querySelector('#loading');
         loadingElem.style.display = 'none';
+
+        this.globals = globals;
 
         this.createRenderTarget();
         this.createScene();
@@ -82,10 +84,6 @@ export class Clip0 {
             horse:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Horse.gltf' },
             knight: { url: 'https://threejsfundamentals.org/threejs/resources/models/knight/KnightCharacter.gltf' },
           };
-        this.globals = {
-            time: 0.0,
-            deltaTime: 0.0
-        };
         
         const gltfLoader = new GLTFLoader(manager);
         for (const model of Object.values(this.models)) {
@@ -128,19 +126,11 @@ export class Clip0 {
     }
     
     update(time) {
-        // convert to seconds
-        this.globals.time = time * 0.001;
-        // make sure delta time isn't too big.
-        this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
-        this.then = this.globals.time;
         this.controls.update();
         this.tweenManager.update();
         this.gameObjectManager.update();
     }
 
-    // render() {
-    //     this.renderer.render(this.scene,this.camera);
-    // }
     render(rtt = false) {
         const renderer = this.renderer;
         //renderer.setClearColor( 0xffffff );
