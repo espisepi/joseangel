@@ -1,5 +1,5 @@
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
-
+import { GUI } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/libs/dat.gui.module.js';
 /* Propiedades de transition
 
 this.scene : La escena de la transition (el plano ocupando la pantalla con ShaderMaterial)
@@ -17,6 +17,56 @@ export class Transition {
         this.renderer = renderer;
         this.scenes = [...scenes];
         this.createTransition();
+        this.updateTextures();
+        this.createTransitionParams();
+        //this.initGUI();
+        this.clock = new THREE.Clock();
+    }
+
+    initGUI() {
+        const transitionParams = this.transitionParams;
+        const gui = new GUI();
+        const self = this;
+        gui.add( transitionParams, "useTexture" ).onChange( function ( value ) {
+            self.useTexture( value );
+        } );
+
+        gui.add( transitionParams, 'loopTexture' );
+
+        gui.add( transitionParams, 'texture', { Perlin: 0, Squares: 1, Cells: 2, Distort: 3, Gradient: 4, Radial: 5 } ).onChange( function ( value ) {
+            self.setTexture( value );
+        } ).listen();
+
+        gui.add( transitionParams, "textureThreshold", 0, 1, 0.01 ).onChange( function ( value ) {
+            self.setTextureThreshold( value );
+        } );
+
+        gui.add( transitionParams, "animateTransition" );
+        gui.add( transitionParams, "transition", 0, 1, 0.01 ).listen();
+        gui.add( transitionParams, "transitionSpeed", 0.5, 5, 0.01 );
+    }
+
+    createTransitionParams() {
+        this.transitionParams = {
+            "useTexture": true,
+            "transition": 0.5,
+            "transitionSpeed": 2.0,
+            "texture": 5,
+            "loopTexture": true,
+            "animateTransition": true,
+            "textureThreshold": 0.3
+        };
+    }
+
+    updateTextures() {
+        // Link both scenes and their FBOs
+        const sceneA = this.scenes[0];
+        const sceneB = this.scenes[1];
+
+        this.quadmaterial.uniforms.tDiffuse1.value = sceneA.fbo.texture;
+        this.quadmaterial.uniforms.tDiffuse2.value = sceneB.fbo.texture;
+
+        this.needChange = false;
     }
 
     createTransition() {
@@ -106,20 +156,21 @@ export class Transition {
         } );
 
         const quadgeometry = new THREE.PlaneBufferGeometry( window.innerWidth, window.innerHeight );
-
         this.quad = new THREE.Mesh( quadgeometry, this.quadmaterial );
-        //this.quad = new THREE.Mesh( quadgeometry, new THREE.MeshBasicMaterial({color:0x400000}) );
         this.scene.add( this.quad );
-        // Link both scenes and their FBOs
-        const sceneA = this.scenes[0];
-        const sceneB = this.scenes[1];
-
-        this.quadmaterial.uniforms.tDiffuse1.value = sceneA.fbo.texture;
-        this.quadmaterial.uniforms.tDiffuse2.value = sceneB.fbo.texture;
-
-        this.needChange = false;
         
     }
+    setTextureThreshold( value ) {
+        this.quadmaterial.uniforms.threshold.value = value;
+    };
+
+    useTexture( value ) {
+        this.quadmaterial.uniforms.useTexture.value = value ? 1 : 0;
+    };
+
+    setTexture = function ( i ) {
+        this.quadmaterial.uniforms.tMixTexture.value = this.textures[ i ];
+    };
 
     render() {
         // Prevent render both scenes when it's not necessary
@@ -134,16 +185,67 @@ export class Transition {
         // } else {
 
             // When 0<transition<1 render transition between two scenes
-            const renderer = this.renderer;
-            this.scenes[0].render(  true );
-            this.scenes[1].render(  true );
-            renderer.setRenderTarget( null );
-            renderer.clear();
-            renderer.render( this.scene, this.cameraOrtho );
+            // const renderer = this.renderer;
+            // this.scenes[0].render(  true );
+            // this.scenes[1].render(  true );
+            // renderer.setRenderTarget( null );
+            // renderer.clear();
+            // renderer.render( this.scene, this.cameraOrtho );
 
-            this.quadmaterial.uniforms.mixRatio.value = 0.29;
+            // this.quadmaterial.uniforms.mixRatio.value = 0.29;
 
         // }
+
+    // Transition animation
+    const transitionParams = this.transitionParams;
+    const renderer = this.renderer;
+    const sceneA = this.scenes[0];
+    const sceneB = this.scenes[1];
+
+    if ( transitionParams.animateTransition ) {
+
+        var t = ( 1 + Math.sin( transitionParams.transitionSpeed * this.clock.getElapsedTime() / Math.PI ) ) / 2;
+        transitionParams.transition = THREE.MathUtils.smoothstep( t, 0.3, 0.7 );
+
+        // Change the current alpha texture after each transition
+        if ( transitionParams.loopTexture && ( transitionParams.transition == 0 || transitionParams.transition == 1 ) ) {
+
+            if ( this.needChange ) {
+
+                transitionParams.texture = ( transitionParams.texture + 1 ) % this.textures.length;
+                this.quadmaterial.uniforms.tMixTexture.value = this.textures[ transitionParams.texture ];
+                this.needChange = false;
+
+            }
+
+        } else
+            this.needChange = true;
+
+    }
+
+    this.quadmaterial.uniforms.mixRatio.value = transitionParams.transition;
+
+    // Prevent render both scenes when it's not necessary
+    if ( transitionParams.transition == 0 ) {
+
+        sceneB.render( false );
+
+    } else if ( transitionParams.transition == 1 ) {
+
+        sceneA.render( false );
+
+    } else {
+
+        // When 0<transition<1 render transition between two scenes
+
+        sceneA.render( true );
+        sceneB.render( true );
+        renderer.setRenderTarget( null );
+        renderer.clear();
+        renderer.render( this.scene, this.cameraOrtho );
+
+    }
+
 
     }
     
