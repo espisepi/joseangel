@@ -15,6 +15,7 @@ export class Clip1 {
         const loadingElem = document.querySelector('#loading');
         loadingElem.style.display = 'none';
 
+        this.createRenderTarget();
         this.createScene();
         this.createCamera();
         if(withControls){
@@ -29,9 +30,14 @@ export class Clip1 {
        
 
     }
+    createRenderTarget() {
+        const renderTargetParameters = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBFormat, stencilBuffer: false };
+		this.fbo = new THREE.WebGLRenderTarget( window.innerWidth, window.innerHeight, renderTargetParameters );
+    }
     createScene() {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color('black');
+        //this.scene.background = new THREE.Color('black');
+        this.scene.background = new THREE.Color(0x300000);
     }
     createCamera() {
         const fov = 45;
@@ -187,7 +193,22 @@ export class Clip1 {
         this.gameObjectManager.update(this.globals);
     }
 
-    render() {
-        this.renderer.render(this.scene,this.camera);
+    render(rtt = false) {
+        const renderer = this.renderer;
+        //renderer.setClearColor( 0xffffff );
+
+        if ( rtt ) {
+
+            renderer.setRenderTarget( this.fbo );
+            renderer.clear();
+            renderer.render( this.scene, this.camera );
+            renderer.setRenderTarget( null );
+
+        } else {
+
+            renderer.setRenderTarget( null );
+            renderer.render( this.scene, this.camera );
+
+        }
     }
 }

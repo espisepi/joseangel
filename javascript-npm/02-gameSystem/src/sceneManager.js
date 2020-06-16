@@ -1,5 +1,6 @@
 import {Clip0} from './clips/clip0.js';
 import {Clip1} from './clips/clip1.js';
+import { Transition } from './transitions/transition.js';
 
 export class SceneManager {
     // Aqui es donde interactuamos con las escenas
@@ -10,11 +11,14 @@ export class SceneManager {
         //this.clip = new Clip1(this.renderer, this.withControls);
         this.clip = new Clip1(this.renderer, this.withControls);
         this.clip2 = new Clip0(this.renderer, this.withControls);
+        this.transition = new Transition(renderer, this.clip, this.clip2);
     }
 
     update(time) {
         this.clip.update(time);
-        this.clip.render();
+        this.transition.render();
+        // Renderizamos en Transition
+        //this.clip.render();
     }
 
 }
