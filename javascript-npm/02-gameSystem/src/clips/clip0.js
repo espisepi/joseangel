@@ -16,7 +16,9 @@ export class Clip0 {
         this.createRenderTarget();
         this.createScene();
         this.createCamera();
-        this.createControls();
+        if(withControls){
+            this.createControls();
+        }
         this.createLights();
 
         this.gameObjectManager = new GameObjectManager();
@@ -126,7 +128,9 @@ export class Clip0 {
     }
     
     update(time) {
-        this.controls.update();
+        if(this.controls) {
+            this.controls.update();
+        }
         this.tweenManager.update();
         this.gameObjectManager.update();
     }

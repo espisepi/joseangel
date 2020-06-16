@@ -5,15 +5,14 @@ import { Transition } from './transitions/transition.js';
 export class SceneManager {
     // Aqui es donde interactuamos con las escenas
     // para el crossfade postprocessing
-    constructor(renderer, withControls = true) {
+    constructor(renderer) {
         this.renderer = renderer;
-        this.withControls = withControls;
         this.globals = {
             time: 0.0,
             deltaTime: 0.0
         }
-        this.clip = new Clip1(this.renderer, this.withControls, this.globals);
-        this.clip2 = new Clip0(this.renderer, this.withControls, this.globals);
+        this.clip = new Clip1(this.renderer, true, this.globals);
+        this.clip2 = new Clip0(this.renderer, true, this.globals);
         this.transition = new Transition(renderer, this.clip, this.clip2);
         this.transition.setTransition(0.2);
     }
