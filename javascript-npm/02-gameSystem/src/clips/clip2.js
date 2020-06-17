@@ -6,14 +6,14 @@ export class Clip2 extends Clip {
     constructor( renderer, withControls, globals ){
         super(renderer, withControls, globals);
     }
-    loadScene(){
+    loadScene() {
         this.scene.add(
             new THREE.Mesh(
                 new THREE.BoxBufferGeometry(2,2,2),
                 new THREE.MeshBasicMaterial({color:0xff0000})
             )
         );
-        
+
         this.models = {
             monitor: {url: '../assets/models/video_monitor/scene.gltf'},
         };
@@ -21,8 +21,14 @@ export class Clip2 extends Clip {
         Promise.all([
             LoadGLTF.load(this.models)
         ]).then(result => {
-            console.log(this.models);
+            this.loadedScene();
         });
         
     }
+    loadedScene() {
+        // En este metodo ya tendremos finalizadas todas las promesas
+        
+    }
+
+
 }
