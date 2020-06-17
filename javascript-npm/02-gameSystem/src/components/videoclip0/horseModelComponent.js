@@ -4,7 +4,7 @@ import { EspinacoAnimationClipCreator } from '../../espinacoAnimationClipCreator
 export class HorseModelComponent extends ModelComponent {
     constructor(gameObject, model, deltaTime, tweenManager) {
         super(gameObject, model, deltaTime);
-        this.createAnimations();
+        //this.createAnimations();
         this.createTweenAnimations(tweenManager);
         //this.skinInstance.setAnimation('Visibility');
 

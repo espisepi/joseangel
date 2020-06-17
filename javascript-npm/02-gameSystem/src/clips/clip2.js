@@ -1,6 +1,7 @@
 import * as THREE from '../../../node_modules/three/build/three.module.js';
 import { Clip } from './clip.js';
 import { LoadGLTF } from '../loaders/loadGLTF.js';
+import { HorseModelComponent } from '../components/videoclip0/horseModelComponent.js';
 
 export class Clip2 extends Clip {
     constructor( renderer, withControls, globals ){
@@ -27,7 +28,8 @@ export class Clip2 extends Clip {
     }
     loadedScene() {
         // En este metodo ya tendremos finalizadas todas las promesas
-        
+        const gameObjectPlayer = this.gameObjectManager.createGameObject(this.scene, 'player');
+        const modelComponent = gameObjectPlayer.addComponent(HorseModelComponent,this.models["monitor"],this.globals.deltaTime,this.tweenManager);
     }
 
 
