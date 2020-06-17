@@ -1,4 +1,5 @@
-import {TWEEN} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/libs/tween.module.min.js';
+//import {TWEEN} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/libs/tween.module.min.js';
+import {TWEEN} from '../../node_modules/three/examples/jsm/libs/tween.module.min.js';
 
 export class TweenManager {
     constructor() {
