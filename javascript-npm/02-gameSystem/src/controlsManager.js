@@ -1,6 +1,9 @@
-import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/OrbitControls.js';
-import {DeviceOrientationControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/DeviceOrientationControls.js';
-import {FirstPersonControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/FirstPersonControls.js';
+//import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/OrbitControls.js';
+//import {FirstPersonControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/FirstPersonControls.js';
+//import {DeviceOrientationControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/DeviceOrientationControls.js';
+import {OrbitControls} from '../../node_modules/three/examples/jsm/controls/OrbitControls.js';
+import {DeviceOrientationControls} from '../../node_modules/three/examples/jsm/controls/DeviceOrientationControls.js';
+import {FirstPersonControls} from '../../node_modules/three/examples/jsm/controls/FirstPersonControls.js';
 
 export class ControlsManager {
     constructor( nameControl, camera, canvas ) {

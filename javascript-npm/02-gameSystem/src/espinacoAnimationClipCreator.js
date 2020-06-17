@@ -1,4 +1,5 @@
-import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
+//import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
+import * as THREE from '../../node_modules/three/build/three.module.js';
 import {AnimationClipCreator} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/animation/AnimationClipCreator.js';
 
 export class EspinacoAnimationClipCreator extends AnimationClipCreator{

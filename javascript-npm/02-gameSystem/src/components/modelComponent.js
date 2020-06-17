@@ -1,8 +1,5 @@
 import{Component} from './component.js';
-import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
-import {FiniteStateMachine} from '../finiteStateMachine.js';
 import {SkinInstance} from '../skinInstance.js';
-import {EspinacoAnimationClipCreator} from '../espinacoAnimationClipCreator.js';
 
 export class ModelComponent extends Component{
 

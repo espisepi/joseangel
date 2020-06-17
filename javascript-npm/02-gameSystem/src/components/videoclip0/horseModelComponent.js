@@ -1,4 +1,3 @@
-import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 import { ModelComponent } from '../modelComponent.js';
 import { EspinacoAnimationClipCreator } from '../../espinacoAnimationClipCreator.js';
 

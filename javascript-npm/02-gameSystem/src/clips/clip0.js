@@ -1,5 +1,7 @@
-import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
-import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
+//import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
+//import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from '../../../node_modules/three/build/three.module.js';
+import {GLTFLoader} from '../../../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 import {ControlsManager} from '../controlsManager.js';
 import {TweenManager} from '../tweenManager.js';
 import {GameObjectManager} from '../gameObjectManager.js';

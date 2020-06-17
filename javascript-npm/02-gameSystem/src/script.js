@@ -1,16 +1,5 @@
-import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
-import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/OrbitControls.js';
-import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
-import {SkeletonUtils} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/utils/SkeletonUtils.js';
-import {GUI} from 'https://threejsfundamentals.org/threejs/../3rdparty/dat.gui.module.js';
-
-import {GameObject} from './gameObject.js';
-import {GameObjectManager} from './gameObjectManager.js';
-import {ModelComponent} from './components/modelComponent.js';
-import { ControlsManager } from './controlsManager.js';
-
-import { HorseModelComponent } from './components/videoclip0/horseModelComponent.js';
-import { TweenManager } from './tweenManager.js';
+//import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
+import * as THREE from '../../node_modules/three/build/three.module.js';
 import { SceneManager } from './sceneManager.js';
 
 
