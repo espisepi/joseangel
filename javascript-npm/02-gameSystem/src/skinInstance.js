@@ -1,6 +1,6 @@
 import {Component} from './components/component.js';
-import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
-import {SkeletonUtils} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/utils/SkeletonUtils.js';
+import * as THREE from '../../node_modules/three/build/three.module.js';
+import {SkeletonUtils} from '../../node_modules/three/examples/jsm/utils/SkeletonUtils.js';
 
 export class SkinInstance extends Component {
     constructor(gameObject, model, deltaTime) {
