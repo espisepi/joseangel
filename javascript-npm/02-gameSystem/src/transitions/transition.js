@@ -1,6 +1,6 @@
-//import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
 import * as THREE from '../../../node_modules/three/build/three.module.js';
-import { GUI } from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/libs/dat.gui.module.js';
+import { GUI } from '../../../node_modules/three/examples/jsm/libs/dat.gui.module.js';
+
 /*  Propiedades de transition
     this.scene : La escena de la transition (el plano ocupando la pantalla con ShaderMaterial)
     this.cameraOrtho: La camara de la transition
@@ -18,6 +18,7 @@ import { GUI } from 'https://threejsfundamentals.org/threejs/resources/threejs/r
     setSceneA(scene)
     setSceneB(scene)
 */
+
 export class Transition {
     constructor(renderer,...scenes) {
         this.renderer = renderer;

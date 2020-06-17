@@ -77,16 +77,7 @@ export class Clip0 {
           progressbarElem.style.width = `${itemsLoaded / itemsTotal * 100 | 0}%`;
         };
         this.models = {
-            pig:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Pig.gltf' },
-            cow:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Cow.gltf' },
-            //llama:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Llama.gltf' },
-            
             llama:  { url: '../assets/models/video_monitor/scene.gltf' },
-            pug:    { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Pug.gltf' },
-            sheep:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Sheep.gltf' },
-            zebra:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Zebra.gltf' },
-            horse:  { url: 'https://threejsfundamentals.org/threejs/resources/models/animals/Horse.gltf' },
-            knight: { url: 'https://threejsfundamentals.org/threejs/resources/models/knight/KnightCharacter.gltf' },
           };
         
         const gltfLoader = new GLTFLoader(manager);
