@@ -20,10 +20,14 @@ export class Clip2 extends Clip {
         this.models = {
             monitor: {url: '../assets/models/video_monitor/scene.gltf'},
         };
+        this.audios = {
+            principal: {url: '../assets/audios/masnaisraelb.mp3'},
+        };
+        const audioLoader = new THREE.AudioLoader();
         const gltfLoader = new GLTFLoader();
         Promise.all([
-            // Probar loader generic
-            LoadGeneric.load(this.models,gltfLoader)
+            LoadGeneric.load(this.models, gltfLoader),
+            LoadGeneric.load( this.audios, audioLoader ),
         ]).then(result => {
             this.loadedScene();
         });
@@ -31,6 +35,8 @@ export class Clip2 extends Clip {
     }
     loadedScene() {
         // En este metodo ya tendremos finalizadas todas las promesas
+        console.log(this.audios);
+        console.log(this.models);
         
         const gameObjectPlayer = this.gameObjectManager.createGameObject(this.scene, 'player');
         const modelComponent = gameObjectPlayer.addComponent(HorseModelComponent,this.models["monitor"],this.globals.deltaTime,this.tweenManager);

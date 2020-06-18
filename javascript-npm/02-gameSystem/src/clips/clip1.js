@@ -103,7 +103,7 @@ export class Clip1 {
         // Usar loaders promises (gatacattana)
         // tener un metodo al que se llama cuando se han cargado models y audios con promesas asincronas
         this.audios = {
-            audioPrincipal: {url: '../../../assets/sounds/masnaIsraelb.mp3'}
+            audioPrincipal: {url: '../../../assets/audios/masnaIsraelb.mp3'}
         }
         const audioLoader = new THREE.AudioLoader(manager);
         for (const audio of Object.values(this.audios)) {
