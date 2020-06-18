@@ -33,7 +33,7 @@ export class HorseModelComponent extends ModelComponent {
                 },
                 3000)
             .onUpdate(function(){
-                model.gltf.scene.traverse((child)=>{
+                model.loader.scene.traverse((child)=>{
                     if(child.isMesh){
                         child.material.color = this._object ;
                     }

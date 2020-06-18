@@ -4,7 +4,10 @@ export class LoadGLTF {
     constructor(){ }
 
     /* @params
-        models = { url: 'url del modelo' }
+        models = {  
+                    model0: { url: 'url del modelo' },
+                    model1: { url: 'url del modelo' },
+                }
     */
     static load(models) {
         return new Promise((resolve, reject) => {

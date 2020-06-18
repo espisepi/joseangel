@@ -7,7 +7,7 @@ export class SkinInstance extends Component {
       super(gameObject);
       this.model = model;
       this.deltaTime = deltaTime;
-      this.animRoot = SkeletonUtils.clone(this.model.gltf.scene);
+      this.animRoot = SkeletonUtils.clone(this.model.loader.scene);
       this.mixer = new THREE.AnimationMixer(this.animRoot);
       gameObject.transform.add(this.animRoot);
       this.actions = {};

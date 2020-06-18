@@ -2,6 +2,8 @@ import * as THREE from '../../../node_modules/three/build/three.module.js';
 import { Clip } from './clip.js';
 import { LoadGLTF } from '../loaders/loadGLTF.js';
 import { HorseModelComponent } from '../components/videoclip0/horseModelComponent.js';
+import { LoadGeneric } from '../loaders/loadGeneric.js';
+import {GLTFLoader} from '../../../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
 export class Clip2 extends Clip {
     constructor( renderer, withControls, globals ){
@@ -18,9 +20,10 @@ export class Clip2 extends Clip {
         this.models = {
             monitor: {url: '../assets/models/video_monitor/scene.gltf'},
         };
-
+        const gltfLoader = new GLTFLoader();
         Promise.all([
-            LoadGLTF.load(this.models)
+            // Probar loader generic
+            LoadGeneric.load(this.models,gltfLoader)
         ]).then(result => {
             this.loadedScene();
         });
@@ -28,6 +31,7 @@ export class Clip2 extends Clip {
     }
     loadedScene() {
         // En este metodo ya tendremos finalizadas todas las promesas
+        
         const gameObjectPlayer = this.gameObjectManager.createGameObject(this.scene, 'player');
         const modelComponent = gameObjectPlayer.addComponent(HorseModelComponent,this.models["monitor"],this.globals.deltaTime,this.tweenManager);
     }
