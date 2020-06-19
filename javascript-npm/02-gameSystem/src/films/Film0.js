@@ -9,13 +9,14 @@ export class Film0 {
         this.transition = new Transition(renderer, clip, clip2);
         this.transition.setTransition(1.0);
         // camera of this clip will update when resize
-        this.clip = clip;
+        this.clip = clip2;
         
     }
 
     update(time) {
-        //this.clip.update(time);
-        this.transition.render();
+        //this.transition.render();
+        this.clip.update();
+        this.clip.render();
     }
     
 }
