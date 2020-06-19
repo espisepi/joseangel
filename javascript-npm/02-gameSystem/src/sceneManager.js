@@ -1,4 +1,5 @@
 import {Film0} from './films/Film0.js';
+//import {Film1} from './films/Film1.js';
 
 export class SceneManager {
     // Aqui es donde interactuamos con las escenas
@@ -10,7 +11,8 @@ export class SceneManager {
             deltaTime: 0.0
         }
         this.then = 0.0;
-        this.film = new Film0(this.renderer, true, this.globals);
+        this.film = new Film0(this.renderer, this.globals);
+        //this.film = new Film1(this.renderer, this.globals);
         
     }
     resizeRenderer(){
