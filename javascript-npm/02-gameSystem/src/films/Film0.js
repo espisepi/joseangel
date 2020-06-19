@@ -1,6 +1,6 @@
-import {Masna_00} from '../clips/masna_00.js';
 import { Transition } from '../transitions/transition.js';
-import { Masna_01 } from '../clips/masna_01.js';
+import { Masna_00 } from '../clips/masna_00.js';
+import {Masna_01} from '../clips/masna_01.js';
 
 export class Film0 {
     constructor(renderer, withControls, globals) {
