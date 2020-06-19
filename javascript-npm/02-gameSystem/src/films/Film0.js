@@ -25,6 +25,14 @@ export class Film0 {
         this.postEffects = new PostEffect(renderer,this.clip);
         
     }
+    
+    render() {
+        this.transition.render();
+        //this.postEffects.render();
+        // this.clip.update();
+        // this.clip.render();
+    }
+
     resize() {
         const canvas = this.renderer.domElement;
         this.clip.camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -32,12 +40,6 @@ export class Film0 {
         if(this.postEffects) {
             this.postEffects.resize();
         }
-    }
-    render() {
-        this.transition.render();
-        //this.postEffects.render();
-        // this.clip.update();
-        // this.clip.render();
     }
     
 }
