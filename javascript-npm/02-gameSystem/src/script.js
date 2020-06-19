@@ -23,9 +23,7 @@ function main() {
   function render(time) {
 
     if (resizeRendererToDisplaySize(renderer)) {
-      const canvas = renderer.domElement;
-      sceneManager.clip.camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      sceneManager.clip.camera.updateProjectionMatrix();
+      sceneManager.resizeRenderer(renderer);
     }
     
     sceneManager.update(time);

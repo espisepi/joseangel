@@ -1,8 +1,4 @@
-import {Clip0} from './clips/clip0.js';
-import {Clip1} from './clips/clip1.js';
-import { Transition } from './transitions/transition.js';
-import { Clip } from './clips/clip.js';
-import { Clip2 } from './clips/clip2.js';
+import {Film0} from './films/Film0.js';
 
 export class SceneManager {
     // Aqui es donde interactuamos con las escenas
@@ -13,10 +9,13 @@ export class SceneManager {
             time: 0.0,
             deltaTime: 0.0
         }
-        this.clip = new Clip1(this.renderer, true, this.globals);
-        this.clip2 = new Clip2(this.renderer, true, this.globals);
-        this.transition = new Transition(renderer, this.clip, this.clip2);
-        this.transition.setTransition(0.0);
+        this.film = new Film0(this.renderer, true, this.globals);
+        
+    }
+    resizeRenderer(renderer){
+        const canvas = renderer.domElement;
+        this.film.clip.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        this.film.clip.camera.updateProjectionMatrix();
     }
 
     update(time) {
@@ -27,7 +26,7 @@ export class SceneManager {
         this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
         this.then = this.globals.time;
 
-        this.transition.render();
+        this.film.update();
     }
 
 }
