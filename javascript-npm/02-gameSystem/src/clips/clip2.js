@@ -5,7 +5,7 @@ import { HorseModelComponent } from '../components/videoclip0/horseModelComponen
 import { LoadGeneric } from '../loaders/loadGeneric.js';
 import {GLTFLoader} from '../../../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
-import { PlaneComponent } from '../components/videoclip0/planeComponent.js';
+import { AudioComponent } from '../components/videoclip0/audioComponent.js';
 import { CubeWireframeComponent } from '../components/videoclip0/cubeWireframeComponent.js';
 
 export class Clip2 extends Clip {
@@ -36,8 +36,6 @@ export class Clip2 extends Clip {
     }
     loadedScene() {
         // En este metodo ya tendremos finalizadas todas las promesas
-        console.log(this.audios);
-        console.log(this.textures);
 
         //this.scene.background = new THREE.Color(0xF1E9DE);
         this.planeCreate();
@@ -46,11 +44,15 @@ export class Clip2 extends Clip {
     }
 
     planeCreate() {
+        const geometry = new THREE.PlaneBufferGeometry( 1, 1, 100, 100 );
+        const material = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide } );
+        const plane = new THREE.Mesh( geometry, material );
         const gameObjectPlane = this.gameObjectManager.createGameObject(this.scene, 'plane');
         const params = {
             audio: this.audios.principal,
+            mesh: plane
         };
-        const planeComponent = gameObjectPlane.addComponent(PlaneComponent, params);
+        const planeComponent = gameObjectPlane.addComponent(AudioComponent, params);
         planeComponent.setTexture(this.textures.masna.loader);
     }
 

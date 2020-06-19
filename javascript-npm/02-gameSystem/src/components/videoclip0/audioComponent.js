@@ -1,29 +1,21 @@
 import { Component } from "../component.js";
 import * as THREE from '../../../../node_modules/three/build/three.module.js';
-import { AudioHelper } from '../../audioHelper.js';
 
-export class PlaneComponent extends Component {
+export class AudioComponent extends Component {
 
     constructor(gameObject, params) {
         super(gameObject);
-        this.createBasicPlane();
+        
+        this.mesh = params.mesh;
         if(params.audio){
             this.addAudio(params.audio);
         };
-        // A este mesh le movemos los vertices con la musica
-        this.mesh = params.mesh;
 
-        gameObject.transform.add(this.plane);
-    }
-
-    createBasicPlane() {
-        const geometry = new THREE.PlaneBufferGeometry( 1, 1, 100, 100 );
-        const material = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide } );
-        this.plane = new THREE.Mesh( geometry, material );
+        gameObject.transform.add(this.mesh);
     }
 
     setTexture(texture) {
-        this.plane.material.map = texture;
+        this.mesh.material.map = texture;
     }
 
     addAudio(audio) {
@@ -44,7 +36,7 @@ export class PlaneComponent extends Component {
             treble: [5200, 14000],
         };
         this.analyser = new THREE.AudioAnalyser(this.audio, fftSize);
-        this.initialPosition = this.plane.geometry.attributes.position.array.slice();
+        this.initialPosition = this.mesh.geometry.attributes.position.array.slice();
     }
 
     update(globals){
@@ -54,7 +46,7 @@ export class PlaneComponent extends Component {
 
     }
     getImageData(useCache) {
-        const image = this.plane.material.map.image;
+        const image = this.mesh.material.map.image;
         if(!(useCache && this.imageData)){
             const canvas = document.createElement("CANVAS");
             canvas.width = image.width;
@@ -83,7 +75,7 @@ export class PlaneComponent extends Component {
         return total / numFrequencies / 255;
     };
     updateAnalyser() {
-        const mesh = this.plane;
+        const mesh = this.mesh;
         const data = this.analyser.getFrequencyData();
         this.getImageData(true);
         
