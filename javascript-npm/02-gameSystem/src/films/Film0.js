@@ -22,7 +22,7 @@ export class Film0 {
         // camera of this clip will update when resize
         this.clip = clip2;
 
-        this.postEffects = new PostEffect(renderer,this.clip.scene,this.clip.camera);
+        this.postEffects = new PostEffect(renderer,this.clip);
         
     }
     resize() {
