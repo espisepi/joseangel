@@ -2,7 +2,7 @@ import { EspinacoTweenUtilities } from '../espinacoTweenUtilities.js';
 /*
     Esta clase modifica el objeto tweenManager anadiendole objetos tween
 */
-export class Masna_01_Tween {
+export class Masna_00_Tween {
 
     constructor(tweenManager, objectsToAnimate){
         this.tweenManager = tweenManager;
