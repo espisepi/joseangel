@@ -26,9 +26,10 @@ export class Transition {
         this.createTransition();
         this.updateTextures();
         this.createTransitionParams();
-        //this.initGUI();
+        this.initGUI();
         this.clock = new THREE.Clock();
     }
+
     setSceneA(scene) {
         this.scenes[0] = scene;
         this.updateTextures();
@@ -47,10 +48,10 @@ export class Transition {
     useTexture( value ) {
         this.quadmaterial.uniforms.useTexture.value = value ? 1 : 0;
     };
-
-    setTexture = function ( i ) {
+    setTexture( i ) {
         this.quadmaterial.uniforms.tMixTexture.value = this.textures[ i ];
     };
+
     initGUI() {
         const transitionParams = this.transitionParams;
         const gui = new GUI();

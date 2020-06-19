@@ -32,31 +32,38 @@ export class Masna_01 extends Clip {
         });
         
     }
+
+    // En este metodo ya tendremos finalizadas todas las promesas
     loadedScene() {
-        // En este metodo ya tendremos finalizadas todas las promesas
 
         //this.scene.background = new THREE.Color(0xF1E9DE);
-        this.planeCreate();
-        //this.cubeWireframeCreate();
+        this.camera.position.set(0.0, 1.0, 3.92);
+        this.planeAudioCreate();
+        this.floorCreate();
         
     }
 
-    planeCreate() {
+    floorCreate() {
+        const geometry = new THREE.PlaneBufferGeometry( 5, 5, 20, 20 );
+        const material = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide, wireframe: true } );
+        const plane = new THREE.Mesh( geometry, material );
+        plane.rotation.x = Math.PI / 2;
+        const gameObjectPlane = this.gameObjectManager.createGameObject(this.scene, 'plane');
+        gameObjectPlane.transform.add(plane);
+    }
+
+    planeAudioCreate() {
         const geometry = new THREE.PlaneBufferGeometry( 1, 1, 100, 100 );
         const material = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide } );
         const plane = new THREE.Mesh( geometry, material );
         const gameObjectPlane = this.gameObjectManager.createGameObject(this.scene, 'plane');
+        gameObjectPlane.transform.position.y = 0.5;
         const params = {
             audio: this.audios.principal,
             mesh: plane,
             texture: this.textures.masna.loader,
         };
         const planeComponent = gameObjectPlane.addComponent(AudioComponent, params);
-    }
-
-    cubeWireframeCreate() {
-        const gameObjectCubeWireframe = this.gameObjectManager.createGameObject(this.scene, 'cubeWireframe');
-        const cubeWireframeComponent = gameObjectCubeWireframe.addComponent(CubeWireframeComponent);
     }
 
 }
