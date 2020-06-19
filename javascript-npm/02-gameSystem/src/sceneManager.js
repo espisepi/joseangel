@@ -26,7 +26,7 @@ export class SceneManager {
         this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
         this.then = this.globals.time;
 
-        this.film.update();
+        this.film.update(time);
     }
 
 }
