@@ -1,11 +1,8 @@
-//import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/OrbitControls.js';
-//import {FirstPersonControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/FirstPersonControls.js';
-//import {DeviceOrientationControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/controls/DeviceOrientationControls.js';
 import {OrbitControls} from '../../node_modules/three/examples/jsm/controls/OrbitControls.js';
 import {DeviceOrientationControls} from '../../node_modules/three/examples/jsm/controls/DeviceOrientationControls.js';
 import {FirstPersonControls} from '../../node_modules/three/examples/jsm/controls/FirstPersonControls.js';
+import {FlyControls} from '../../node_modules/three/examples/jsm/controls/FlyControls.js';
 
-// Implementar PointerLockControls
 export class ControlsManager {
     constructor( nameControl, camera, canvas ) {
         this.camera = camera;
@@ -22,10 +19,18 @@ export class ControlsManager {
         if( nameControl === 'firstPersonControls' ) {
             this._createFirstPersonControls();
         }
+        if( nameControl === 'flyControls' ) {
+            this._createFlyControls();
+        }
         
     }
     update(deltaTime) {
-        this.controls.update(deltaTime);
+        if(this.controls.update){
+            if(this.controls.movementSpeed){
+                this.controls.movementSpeed = 0.33 ;
+            }
+            this.controls.update(deltaTime);
+        }
     }
 
     /* Metodos para crear controls */
@@ -46,5 +51,15 @@ export class ControlsManager {
         // joystick._baseEl.style.display = 'block';
         // joystick._baseEl.style.top = '0px';
         console.log(joystick);
+    }
+    _createFlyControls() {
+        this.controls = new FlyControls(this.camera, this.canvas);
+        const controls = this.controls;
+        controls.movementSpeed = 0.5;
+        // controls.domElement = this.canvas;
+        controls.rollSpeed = Math.PI / 24; //Math.PI / 24
+        controls.autoForward = false;
+        controls.dragToLook = true;
+        console.log(controls);
     }
 }
