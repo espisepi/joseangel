@@ -9,6 +9,7 @@ export class SceneManager {
             time: 0.0,
             deltaTime: 0.0
         }
+        this.then = 0.0;
         this.film = new Film0(this.renderer, true, this.globals);
         
     }
