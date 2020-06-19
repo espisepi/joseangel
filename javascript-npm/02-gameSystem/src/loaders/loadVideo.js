@@ -1,0 +1,3 @@
+/*
+    create video dom with js method or pass by parameter
+*/

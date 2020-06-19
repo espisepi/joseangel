@@ -302,7 +302,7 @@ const draw = (t) => {
 
         for (let i = 0, length = particles.geometry.attributes.position.array.length; i < length; i += 3) {
             let index = particleIndexArray[count];
-            let gray = (imageData.data[index] + imageData.data[index + 1] + imageData.data[index + 2]) / 3;
+            let gray = (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3;
             let threshold = 300;
             /**
             * position.array = [x,y,z,x,y,z,x,y,z,x,y,z]
@@ -333,6 +333,7 @@ const draw = (t) => {
             count++;
         }
 
+        // Las lucecitas que cada vertice
         uniforms.size.value = (r + g + b) / 3 * 35 + 5;
 
         particles.geometry.attributes.position.needsUpdate = true;
