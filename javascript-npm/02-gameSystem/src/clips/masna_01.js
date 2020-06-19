@@ -1,14 +1,12 @@
 import * as THREE from '../../../node_modules/three/build/three.module.js';
 import { Clip } from './clip.js';
-import { LoadGLTF } from '../loaders/loadGLTF.js';
-import { HorseModelComponent } from '../components/videoclip0/horseModelComponent.js';
 import { LoadGeneric } from '../loaders/loadGeneric.js';
 import {GLTFLoader} from '../../../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
 import { AudioComponent } from '../components/videoclip0/audioComponent.js';
 import { CubeWireframeComponent } from '../components/videoclip0/cubeWireframeComponent.js';
 
-export class Clip2 extends Clip {
+export class Masna_01 extends Clip {
     constructor( renderer, withControls, globals ){
         super(renderer, withControls, globals);
     }

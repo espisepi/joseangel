@@ -1,5 +1,3 @@
-// import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/build/three.module.js';
-// import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r115/examples/jsm/loaders/GLTFLoader.js';
 import * as THREE from '../../../node_modules/three/build/three.module.js';
 import {GLTFLoader} from '../../../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 import {ControlsManager} from '../controlsManager.js';
@@ -9,8 +7,7 @@ import { CubeWireframeComponent } from '../components/videoclip0/cubeWireframeCo
 import { Clip1Tween } from './clip1Tween.js';
 import { PlaneVideoComponent } from '../components/videoclip0/planeVideoComponent.js';
 
-
-export class Clip1 {
+export class Masna_00 {
     constructor(renderer, withControls, globals ){
         this.renderer = renderer;
         

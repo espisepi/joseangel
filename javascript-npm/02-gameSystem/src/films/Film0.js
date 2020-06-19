@@ -1,16 +1,16 @@
-import {Clip0} from '../clips/clip0.js';
-import {Clip1} from '../clips/clip1.js';
+import {Masna_00} from '../clips/masna_00.js';
 import { Transition } from '../transitions/transition.js';
-import { Clip2 } from '../clips/clip2.js';
+import { Masna_01 } from '../clips/masna_01.js';
 
 export class Film0 {
     constructor(renderer, withControls, globals) {
-        const clip = new Clip1(renderer, true, globals);
-        const clip2 = new Clip2(renderer, true, globals);
+        const clip = new Masna_00(renderer, true, globals);
+        const clip2 = new Masna_01(renderer, true, globals);
         this.transition = new Transition(renderer, clip, clip2);
-        this.transition.setTransition(0.0);
+        this.transition.setTransition(1.0);
         // camera of this clip will update when resize
         this.clip = clip;
+        
     }
 
     update(time) {
