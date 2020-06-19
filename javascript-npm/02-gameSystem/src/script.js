@@ -26,7 +26,7 @@ function main() {
       sceneManager.resizeRenderer(renderer);
     }
     
-    sceneManager.update(time);
+    sceneManager.render(time);
 
   	requestAnimationFrame(render);
   }

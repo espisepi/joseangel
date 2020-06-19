@@ -33,7 +33,7 @@ export class Film0 {
             this.postEffects.resize();
         }
     }
-    update(time) {
+    render() {
         this.transition.render();
         //this.postEffects.render();
         // this.clip.update();

@@ -17,7 +17,7 @@ export class SceneManager {
         this.film.resize();
     }
 
-    update(time) {
+    render(time) {
 
         // convert to seconds
         this.globals.time = time * 0.001;
@@ -25,7 +25,7 @@ export class SceneManager {
         this.globals.deltaTime = Math.min(this.globals.time - this.then, 1 / 20);
         this.then = this.globals.time;
 
-        this.film.update(time);
+        this.film.render();
     }
 
 }
