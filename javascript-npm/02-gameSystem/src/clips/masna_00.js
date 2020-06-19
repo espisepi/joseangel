@@ -29,8 +29,8 @@ export class Masna_00 extends Clip {
 
     }
     loadedScene() {
-       const gameObjectPlayer = this.gameObjectManager.createGameObject(this.scene, 'player');
-       const cubeWireframeComponent = gameObjectPlayer.addComponent(CubeWireframeComponent);
+       const gameObjectCube = this.gameObjectManager.createGameObject(this.scene, 'cube');
+       const cubeWireframeComponent = gameObjectCube.addComponent(CubeWireframeComponent);
        const objectsToAnimate = {
            cubeWireframeComponent
        };
