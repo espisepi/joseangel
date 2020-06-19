@@ -11,7 +11,7 @@ export class Film0 {
         // Decir por parametro el tipo de control de la escena
         const params = {
             globals: globals,
-            controls: 'orbitControls'
+            //controls: 'orbitControls'
         };
         const clip = new Masna_00(renderer, params);
         const clip2 = new Masna_01(renderer, params);

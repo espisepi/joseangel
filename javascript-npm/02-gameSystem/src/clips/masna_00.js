@@ -29,15 +29,18 @@ export class Masna_00 extends Clip {
 
     }
     loadedScene() {
-       const gameObjectCube = this.gameObjectManager.createGameObject(this.scene, 'cube');
-       const cubeWireframeComponent = gameObjectCube.addComponent(CubeWireframeComponent);
-       const objectsToAnimate = {
-           cubeWireframeComponent
-       };
-       const clip1Tween = new Masna_00_Tween(this.tweenManager, objectsToAnimate);
-
-       const gameObjectPlaneVideo = this.gameObjectManager.createGameObject(this.scene, 'planeVideo');
-       const planeVideoComponent = gameObjectPlaneVideo.addComponent(PlaneVideoComponent, this.textures.masna);
+        this.camera.position.set(0.0, 1.0, 3.92);
+        const gameObjectCube = this.gameObjectManager.createGameObject(this.scene, 'cube');
+        const cubeWireframeComponent = gameObjectCube.addComponent(CubeWireframeComponent);
+        const objectsToAnimate = {
+            cubeWireframeComponent
+        };
+        cubeWireframeComponent.cube.position.set(0,1,0);
+        const clip1Tween = new Masna_00_Tween(this.tweenManager, objectsToAnimate);
+ 
+        const gameObjectPlaneVideo = this.gameObjectManager.createGameObject(this.scene, 'planeVideo');
+        const planeVideoComponent = gameObjectPlaneVideo.addComponent(PlaneVideoComponent, this.textures.masna);
+        planeVideoComponent.plane.position.set(0,1,0);
     }
 
     update(time) {
