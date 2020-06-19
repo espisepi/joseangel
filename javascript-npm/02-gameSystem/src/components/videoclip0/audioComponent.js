@@ -49,31 +49,41 @@ export class AudioComponent extends Component {
     updateAnalyser() {
         
         if(this.hasTexture){
+            
+        }
+
+        const params = {
+            mesh: this.mesh,
+            bass: this.getFrequencyRangeValue(this.frequencyRange.bass),
+            mid: this.getFrequencyRangeValue(this.frequencyRange.mid),
+            treble: this.getFrequencyRangeValue(this.frequencyRange.treble),
+        };
+        
+        if(this.hasTexture) {
             this.getImageData();
+            this.textureAnimation(params);
         }
         
-		const bass = this.getFrequencyRangeValue(this.frequencyRange.bass);
-       	const mid = this.getFrequencyRangeValue(this.frequencyRange.mid);
-        const treble = this.getFrequencyRangeValue(this.frequencyRange.treble);
+        this.mesh.geometry.attributes.position.needsUpdate = true;
+        this.mesh.geometry.computeVertexNormals();
+        this.mesh.geometry.computeFaceNormals();
 
-        const mesh = this.mesh;
-        const arrayPosition = mesh.geometry.attributes.position.array;
-        if(this.hasTexture) {
-            for(let i = 0; i < arrayPosition.length; i = i + 3 ){
-                const gray = (this.imageData.data[i] + this.imageData.data[i + 1] + this.imageData.data[i + 2]) / 3;
-                const threshold = 240;
-                if (gray < threshold) {
-                    arrayPosition[i + 2] = ( gray / 256.0) * bass * 0.5;
-                } else {
-                    arrayPosition[i + 2] = ( gray / 256.0) * treble * 0.5;
-                }
+    }
+
+    textureAnimation(params) {
+        const arrayPosition = params.mesh.geometry.attributes.position.array;
+        const bass = params.bass;
+        const mid = params.mid;
+        const treble = params.treble;
+        for(let i = 0; i < arrayPosition.length; i = i + 3 ){
+            const gray = (this.imageData.data[i] + this.imageData.data[i + 1] + this.imageData.data[i + 2]) / 3;
+            const threshold = 240;
+            if (gray < threshold) {
+                arrayPosition[i + 2] = ( gray / 256.0) * bass * 0.5;
+            } else {
+                arrayPosition[i + 2] = ( gray / 256.0) * treble * 0.5;
             }
         }
-        
-        mesh.geometry.attributes.position.needsUpdate = true;
-        mesh.geometry.computeVertexNormals();
-        mesh.geometry.computeFaceNormals();
-
     }
 
 
