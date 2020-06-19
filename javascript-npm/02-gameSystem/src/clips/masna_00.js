@@ -24,7 +24,7 @@ export class Masna_00 {
         this.createScene();
         this.createCamera();
         if(params.controls){
-            this.createControls();
+            this.createControls(params.controls);
         }
         this.createLights();
 
@@ -53,8 +53,8 @@ export class Masna_00 {
         camera.position.set(0, 0, 5);
         this.camera = camera;
     }
-    createControls() {
-        this.controls = new ControlsManager('orbitControls', this.camera, this.renderer.domElement);
+    createControls(controlsName) {
+        this.controls = new ControlsManager(controlsName, this.camera, this.renderer.domElement);
     }
     createLights() {
         const scene = this.scene;

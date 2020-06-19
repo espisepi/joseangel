@@ -14,31 +14,37 @@ export class ControlsManager {
     }
     setControl(nameControl) {
         if( nameControl === 'orbitControls' ) {
-            this.controls = new OrbitControls(this.camera, this.canvas);
+            this._createOrbitControls();
         }
         if( nameControl === 'deviceOrientationControls' ) {
-            this.controls = new DeviceOrientationControls(this.camera);
+            this._createDeviceOrientationControls();
         }
         if( nameControl === 'firstPersonControls' ) {
-            this.controls = new FirstPersonControls( this.camera, this.canvas );
-            this.controls.movementSpeed = 1000;
-            this.controls.lookSpeed = 0.1;
-            this.controls.enabled = false;
-            const joystick = new VirtualJoystick({
-                mouseSupport: true,
-            });
-            // joystick._baseEl.style.display = 'block';
-            // joystick._baseEl.style.top = '0px';
-            console.log(joystick);
+            this._createFirstPersonControls();
         }
         
     }
     update(deltaTime) {
         this.controls.update(deltaTime);
-        // if(this.deltaTime){
-        //     this.controls.update(this.deltaTime);
-        // }else{
-        //     this.controls.update();
-        // }
+    }
+
+    /* Metodos para crear controls */
+    _createOrbitControls() {
+        this.controls = new OrbitControls(this.camera, this.canvas);
+    }
+    _createDeviceOrientationControls() {
+        this.controls = new DeviceOrientationControls(this.camera);
+    }
+    _createFirstPersonControls() {
+        this.controls = new FirstPersonControls( this.camera, this.canvas );
+        this.controls.movementSpeed = 1000;
+        this.controls.lookSpeed = 0.1;
+        this.controls.enabled = false;
+        const joystick = new VirtualJoystick({
+            mouseSupport: true,
+        });
+        // joystick._baseEl.style.display = 'block';
+        // joystick._baseEl.style.top = '0px';
+        console.log(joystick);
     }
 }
