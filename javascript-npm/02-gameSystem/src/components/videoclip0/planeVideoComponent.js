@@ -12,7 +12,7 @@ export class PlaneVideoComponent extends Component{
         super(gameObject);
 
         const geometry = new THREE.PlaneBufferGeometry( 1, 1, 0 );
-        const material = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide, map: videoTexture.texture } );
+        const material = new THREE.MeshBasicMaterial( { side: THREE.DoubleSide, map: videoTexture.loader } );
         this.plane = new THREE.Mesh( geometry, material );
         gameObject.transform.add(this.plane);
 

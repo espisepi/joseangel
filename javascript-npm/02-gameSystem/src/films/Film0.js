@@ -4,6 +4,10 @@ import {Masna_01} from '../clips/masna_01.js';
 
 export class Film0 {
     constructor(renderer, withControls, globals) {
+
+        const loadingElem = document.querySelector('#loading');
+        loadingElem.style.display = 'none';
+
         // Decir por parametro el tipo de control de la escena
         const params = {
             globals: globals,
