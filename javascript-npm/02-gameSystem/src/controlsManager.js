@@ -59,7 +59,6 @@ export class ControlsManager {
         // controls.domElement = this.canvas;
         controls.rollSpeed = Math.PI / 24; //Math.PI / 24
         controls.autoForward = false;
-        controls.dragToLook = true;
-        console.log(controls);
+        controls.dragToLook = false;
     }
 }
