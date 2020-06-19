@@ -47,10 +47,6 @@ export class AudioComponent extends Component {
     }
     
     updateAnalyser() {
-        
-        if(this.hasTexture){
-            
-        }
 
         const params = {
             mesh: this.mesh,
@@ -62,6 +58,8 @@ export class AudioComponent extends Component {
         if(this.hasTexture) {
             this.getImageData();
             this.textureAnimation(params);
+        }else{
+            this.simpleAnimation(params);
         }
         
         this.mesh.geometry.attributes.position.needsUpdate = true;
@@ -82,6 +80,20 @@ export class AudioComponent extends Component {
                 arrayPosition[i + 2] = ( gray / 256.0) * bass * 0.5;
             } else {
                 arrayPosition[i + 2] = ( gray / 256.0) * treble * 0.5;
+            }
+        }
+    }
+
+    simpleAnimation(params) {
+        const arrayPosition = params.mesh.geometry.attributes.position.array;
+        const bass = params.bass;
+        const mid = params.mid;
+        const treble = params.treble;
+        for(let i = 0; i < arrayPosition.length; i = i + 3 ){
+            if( arrayPosition[i] < 0.0 ) {
+                arrayPosition[i + 2] = bass * 0.5;
+            } else {
+                arrayPosition[i + 2] = treble * 0.5;
             }
         }
     }

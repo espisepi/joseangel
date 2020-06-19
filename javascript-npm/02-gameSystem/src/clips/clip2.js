@@ -51,7 +51,7 @@ export class Clip2 extends Clip {
         const params = {
             audio: this.audios.principal,
             mesh: plane,
-            texture: this.textures.masna.loader,
+            //texture: this.textures.masna.loader,
         };
         const planeComponent = gameObjectPlane.addComponent(AudioComponent, params);
     }
