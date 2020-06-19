@@ -13,10 +13,8 @@ export class SceneManager {
         this.film = new Film0(this.renderer, true, this.globals);
         
     }
-    resizeRenderer(renderer){
-        const canvas = renderer.domElement;
-        this.film.clip.camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        this.film.clip.camera.updateProjectionMatrix();
+    resizeRenderer(){
+        this.film.resize();
     }
 
     update(time) {
