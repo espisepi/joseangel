@@ -50,10 +50,10 @@ export class Clip2 extends Clip {
         const gameObjectPlane = this.gameObjectManager.createGameObject(this.scene, 'plane');
         const params = {
             audio: this.audios.principal,
-            mesh: plane
+            mesh: plane,
+            texture: this.textures.masna.loader,
         };
         const planeComponent = gameObjectPlane.addComponent(AudioComponent, params);
-        planeComponent.setTexture(this.textures.masna.loader);
     }
 
     cubeWireframeCreate() {
