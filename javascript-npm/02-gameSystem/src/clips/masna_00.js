@@ -42,30 +42,5 @@ export class Masna_00 extends Clip {
         const planeVideoComponent = gameObjectPlaneVideo.addComponent(PlaneVideoComponent, this.textures.masna);
         planeVideoComponent.plane.position.set(0,1,0);
     }
-
-    update(time) {
-        if(this.controls){
-            this.controls.update(this.globals.deltaTime);
-        }
-        this.tweenManager.update();
-        this.gameObjectManager.update(this.globals);
-    }
-    render(rtt = false) {
-        const renderer = this.renderer;
-        //renderer.setClearColor( 0xffffff );
-
-        if ( rtt ) {
-
-            renderer.setRenderTarget( this.fbo );
-            renderer.clear();
-            renderer.render( this.scene, this.camera );
-            renderer.setRenderTarget( null );
-
-        } else {
-
-            renderer.setRenderTarget( null );
-            renderer.render( this.scene, this.camera );
-
-        }
-    }
+    
 }

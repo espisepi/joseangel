@@ -34,8 +34,8 @@ export class Film0 {
         }
     }
     update(time) {
-        //this.transition.render();
-        this.postEffects.render();
+        this.transition.render();
+        //this.postEffects.render();
         // this.clip.update();
         // this.clip.render();
     }

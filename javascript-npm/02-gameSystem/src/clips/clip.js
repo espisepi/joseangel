@@ -63,7 +63,7 @@ export class Clip {
     createControls(controlName){
         this.controls = new ControlsManager(controlName, this.camera, this.renderer.domElement);
     }
-    update(time) {
+    update() {
         if(this.controls){
             this.controls.update(this.globals.deltaTime);
         }
