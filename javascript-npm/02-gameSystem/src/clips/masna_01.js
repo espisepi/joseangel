@@ -4,7 +4,7 @@ import {ControlsManager} from '../controlsManager.js';
 import {TweenManager} from '../tweenManager.js';
 import {GameObjectManager} from '../gameObjectManager.js';
 import { CubeWireframeComponent } from '../components/videoclip0/cubeWireframeComponent.js';
-import { Clip1Tween } from './clip1Tween.js';
+import { Masna_01_Tween } from './masna_01_tween.js';
 import { PlaneVideoComponent } from '../components/videoclip0/planeVideoComponent.js';
 
 export class Masna_01 {
@@ -161,7 +161,7 @@ export class Masna_01 {
             const objectsToAnimate = {
                 cubeWireframeComponent
             };
-            const clip1Tween = new Clip1Tween(tweenManager, objectsToAnimate);
+            const clip1Tween = new Masna_01_Tween(tweenManager, objectsToAnimate);
 
             const gameObjectPlaneVideo = gameObjectManager.createGameObject(scene, 'planeVideo');
             const planeVideoComponent = gameObjectPlaneVideo.addComponent(PlaneVideoComponent, self.textures.videoTexture);
