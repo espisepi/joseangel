@@ -1,5 +1,5 @@
 import {Film0} from './films/Film0.js';
-//import {Film1} from './films/Film1.js';
+import {Film1} from './films/Film1.js';
 
 export class SceneManager {
     // Aqui es donde interactuamos con las escenas

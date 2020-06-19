@@ -6,10 +6,6 @@ import { PostEffect } from '../postEffects/postEffect.js';
 export class Film1 {
     constructor(renderer, globals) {
         this.renderer = renderer;
-
-        const loadingElem = document.querySelector('#loading');
-        loadingElem.style.display = 'none';
-
         // Decir por parametro el tipo de control de la escena
         const params = {
             globals: globals,
