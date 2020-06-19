@@ -7,8 +7,8 @@ import { AudioComponent } from '../components/videoclip0/audioComponent.js';
 import { CubeWireframeComponent } from '../components/videoclip0/cubeWireframeComponent.js';
 
 export class Masna_01 extends Clip {
-    constructor( renderer, withControls, globals ){
-        super(renderer, withControls, globals);
+    constructor( renderer, params ){
+        super(renderer, params);
     }
     loadScene() {
         this.models = {

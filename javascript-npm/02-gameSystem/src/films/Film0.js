@@ -4,8 +4,13 @@ import {Masna_01} from '../clips/masna_01.js';
 
 export class Film0 {
     constructor(renderer, withControls, globals) {
-        const clip = new Masna_00(renderer, false, globals);
-        const clip2 = new Masna_01(renderer, false, globals);
+        // Decir por parametro el tipo de control de la escena
+        const params = {
+            globals: globals,
+            controls: 'orbitControls'
+        };
+        const clip = new Masna_00(renderer, params);
+        const clip2 = new Masna_01(renderer, params);
         this.transition = new Transition(renderer, clip, clip2);
         this.transition.setTransition(0.0);
         // camera of this clip will update when resize

@@ -8,7 +8,7 @@ import { Masna_00_Tween } from './masna_00_tween.js';
 import { PlaneVideoComponent } from '../components/videoclip0/planeVideoComponent.js';
 
 export class Masna_00 {
-    constructor(renderer, withControls, globals ){
+    constructor(renderer, params ){
         this.renderer = renderer;
         
         const loadingElem = document.querySelector('#loading');
@@ -18,12 +18,12 @@ export class Masna_00 {
         //     time: 0.0,
         //     deltaTime: 0.0
         // };
-        this.globals = globals;
+        this.globals = params.globals;
 
         this.createRenderTarget();
         this.createScene();
         this.createCamera();
-        if(withControls){
+        if(params.controls){
             this.createControls();
         }
         this.createLights();

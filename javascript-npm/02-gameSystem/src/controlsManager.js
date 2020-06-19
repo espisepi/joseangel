@@ -5,6 +5,7 @@ import {OrbitControls} from '../../node_modules/three/examples/jsm/controls/Orbi
 import {DeviceOrientationControls} from '../../node_modules/three/examples/jsm/controls/DeviceOrientationControls.js';
 import {FirstPersonControls} from '../../node_modules/three/examples/jsm/controls/FirstPersonControls.js';
 
+// Implementar PointerLockControls
 export class ControlsManager {
     constructor( nameControl, camera, canvas ) {
         this.camera = camera;
@@ -30,6 +31,7 @@ export class ControlsManager {
             // joystick._baseEl.style.top = '0px';
             console.log(joystick);
         }
+        
     }
     update(deltaTime) {
         this.controls.update(deltaTime);

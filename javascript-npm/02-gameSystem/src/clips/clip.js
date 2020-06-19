@@ -4,16 +4,23 @@ import {TweenManager} from '../tweenManager.js';
 import {GameObjectManager} from '../gameObjectManager.js';
 
 export class Clip {
-    constructor( renderer, withControls, globals ) {
+    /**@params
+     * renderer: THREE.WebGLRenderer
+     * params: {
+     *              globals: globals,
+     *              controls: 'orbitControl'
+     *          }
+     */
+    constructor( renderer, params ) {
         this.renderer = renderer;
-        this.globals = globals;
+        this.globals = params.globals;
 
         this.createRenderTarget();
         this.createScene();
         this.createCamera();
         this.createLights();
-        if(withControls){
-            this.createControls();
+        if(params.controls){
+            this.createControls(params.controls);
         }
         this.gameObjectManager = new GameObjectManager();
         this.tweenManager = new TweenManager();
@@ -53,8 +60,8 @@ export class Clip {
           addLight(5, 5, 2);
           addLight(-5, 5, 5);
     }
-    createControls(){
-        this.controls = new ControlsManager('orbitControls', this.camera, this.renderer.domElement);
+    createControls(controlName){
+        this.controls = new ControlsManager(controlName, this.camera, this.renderer.domElement);
     }
     update(time) {
         if(this.controls){
