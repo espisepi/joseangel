@@ -1,7 +1,3 @@
-import { Transition } from '../transitions/transition.js';
-import { Masna_00 } from '../clips/masna_00.js';
-import {Masna_01} from '../clips/masna_01.js';
-import { PostEffect } from '../postEffects/postEffect.js';
 import { Dirty } from '../clips/dirty.js';
 
 export class Film1 {
