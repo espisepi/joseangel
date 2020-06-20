@@ -6,6 +6,7 @@ export class AudioComponent extends Component {
     constructor(gameObject, params) {
         super(gameObject);
 
+        this.animation = params.animation;
         this.mesh = params.mesh;
         if(params.audio){
             this.addAudio(params.audio);
@@ -57,7 +58,11 @@ export class AudioComponent extends Component {
         
         if(this.hasTexture) {
             this.getImageData();
-            this.textureAnimation(params);
+            if(this.animation === 'altavoces'){
+                this.sphereTextureAnimation(params);
+            }else {
+                this.textureAnimation(params);
+            }
         }else{
             this.simpleAnimation(params);
         }
@@ -81,6 +86,46 @@ export class AudioComponent extends Component {
             } else {
                 arrayPosition[i + 2] = ( gray / 256.0) * treble * 0.5;
             }
+        }
+    }
+
+    sphereTextureAnimation(params) {
+        const arrayPosition = params.mesh.geometry.attributes.position.array;
+        const bass = params.bass;
+        const mid = params.mid;
+        const treble = params.treble;
+        const paramsForDance = {
+            bass: params.bass,
+            mid: params.mid,
+            treble: params.treble,
+            arrayPosition: arrayPosition
+        };
+        for(let i = 0; i < arrayPosition.length; i = i + 3 ){
+            const gray = (this.imageData.data[i] + this.imageData.data[i + 1] + this.imageData.data[i + 2]) / 3;
+            const threshold = 240;
+            if (gray < threshold) {
+                arrayPosition[i] = ( gray / 256.0) * bass * 0.5;
+            } else {
+            }
+            
+        }
+    }
+    altavoces(params, i) {
+        // Bug: No se actualiza arrayPosition
+        //paramsForDance.gray = (this.imageData.data[i] + this.imageData.data[i + 1] + this.imageData.data[i + 2]) / 3;
+        //paramsForDance.threshold = 240;
+        const [bass, gray, threshold, arrayPosition] = Object.values(params);
+        if (gray < threshold) {
+            arrayPosition[i] = ( gray / 256.0) * bass * 0.5;
+        } else {
+        }
+    }
+    cilindro(){
+        if (gray < threshold) {
+            arrayPosition[i] = ( gray / 256.0) * bass * 0.5;
+            arrayPosition[i + 2] = ( gray / 256.0) * bass * 0.5;
+            arrayPosition[i + 1] = ( gray / 256.0) * bass * 0.5;
+        } else {
         }
     }
 

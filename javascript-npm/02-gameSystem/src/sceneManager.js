@@ -11,8 +11,7 @@ export class SceneManager {
             deltaTime: 0.0
         }
         this.then = 0.0;
-        //this.film = new Film0(this.renderer, this.globals);
-        this.film = new Film1(this.renderer, this.globals);
+        this.film = new Film0(this.renderer, this.globals);
         
     }
     resizeRenderer(){

@@ -35,8 +35,8 @@ function main() {
 
 /* MAIN PRINCIPAL */
 let btn = document.getElementById('btn-iniciar');
-//btn.addEventListener('click', () => {
+btn.addEventListener('click', () => {
   let overlay = document.getElementById('overlay');
   overlay.style.display = 'none';
   main();
-//});
+});
