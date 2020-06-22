@@ -12,7 +12,7 @@ export class Film0 {
             globals: globals,
             controls: 'orbitControls'
         };
-        const clip = new Masna_00(renderer, params);
+        const clip = new Masna_00(renderer, {globals: globals});
         const clip2 = new Masna_01(renderer, params);
         this.transition = new Transition(renderer, clip, clip2);
         this.transition.setTransition(0.0);

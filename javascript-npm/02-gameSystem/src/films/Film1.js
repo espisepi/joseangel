@@ -1,13 +1,14 @@
 import { Dirty } from '../clips/dirty.js';
+import { Car } from '../clips/car.js';
 
 export class Film1 {
     constructor(renderer, globals) {
         this.renderer = renderer;
         const params = {
             globals: globals,
-            controls: 'orbitControls'
+            controls: 'orbitControlsZoom'
         };
-        const clip = new Dirty(renderer, params);
+        const clip = new Car(renderer, params);
         this.clip = clip;
 
         //this.transition = new Transition(renderer, clip, clip2);
