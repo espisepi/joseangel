@@ -2,27 +2,35 @@ import { TransformControls } from '../../node_modules/three/examples/jsm/control
 import * as THREE from '../../node_modules/three/build/three.module.js';
 
 export class TransformControlsUtility {
-    constructor(clip, orbitControlsDisabled = false) {
+    constructor(clip) {
+        this.clip = clip;
         this.controls = new TransformControls( clip.camera, clip.renderer.domElement );
         // Esperamos a que la escena "clip" cargue sus elementos
-        setTimeout(() => { this.createControls(clip,orbitControlsDisabled)  }, 1000);
+        setTimeout(() => { this.createControls()  }, 1000);
+
         this.addKeyboardShortcut();
     }
 
-    createControls(clip, orbitControlsDisabled) {
+    createControls() {
+        const clip = this.clip;
         if (!clip.transformMesh){
             console.error(' Dont exist transformMesh for transformControls ');
         } else {
             const controls = this.controls;
             controls.attach( clip.transformMesh );
             clip.scene.add( controls );
-            if(orbitControlsDisabled){
-                const self = clip;
+            if(clip.controls){
                 controls.addEventListener( 'dragging-changed', function ( event ) {
-                    self.controls.controls.enabled = ! event.value;
+                    clip.controls.controls.enabled = ! event.value;
                 } );
             }
             this.controls = controls;
+        }
+    }
+
+    update(){
+        if(this.clip.transformMesh){
+            console.log(this.clip.transformMesh.position);
         }
     }
 

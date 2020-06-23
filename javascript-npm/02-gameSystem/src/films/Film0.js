@@ -14,7 +14,7 @@ export class Film0 {
         };
         const clip = new Masna_00(renderer, {globals: globals});
         const clip2 = new Masna_01(renderer, params);
-        const transformControls = new TransformControlsUtility(clip2,true);
+        this.transformControls = new TransformControlsUtility(clip2);
         this.transition = new Transition(renderer, clip, clip2);
         this.transition.setTransition(0.0);
         // camera of this clip will update when resize
@@ -25,6 +25,7 @@ export class Film0 {
     }
     
     render() {
+        this.transformControls.update();
         this.transition.render();
         //this.postEffects.render();
          //this.clip.update();
