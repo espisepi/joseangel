@@ -64,6 +64,7 @@ export class Masna_01 extends Clip {
             texture: this.textures.masna.loader,
         };
         const planeComponent = gameObjectPlane.addComponent(AudioComponent, params);
+        this.transformMesh = plane;
     }
 
 }
