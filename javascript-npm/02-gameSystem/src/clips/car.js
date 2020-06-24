@@ -34,7 +34,7 @@ export class Car extends Clip {
         const loader = new GLTFLoader();
         /* DRACOLoader instance to decode compressed mesh data */
         const dracoLoader = new DRACOLoader();
-        const pathRoot = '../../../node_modules/three';
+        const pathRoot = '../node_modules/three';
         dracoLoader.setDecoderPath( pathRoot + '/examples/js/libs/draco/gltf/' );
         loader.setDRACOLoader( dracoLoader );
         Promise.all([

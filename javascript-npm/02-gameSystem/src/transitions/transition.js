@@ -108,7 +108,7 @@ export class Transition {
         const loader = new THREE.TextureLoader();
 
         for ( let i = 0; i < 6; i ++ ) {
-            this.textures[ i ] = loader.load( '../../../assets/textures/transition/transition' + ( i + 1 ) + '.png' );
+            this.textures[ i ] = loader.load( '../assets/textures/transition/transition' + ( i + 1 ) + '.png' );
         }
 
         this.quadmaterial = new THREE.ShaderMaterial( {
