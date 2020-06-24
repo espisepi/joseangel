@@ -12,6 +12,7 @@ export class SceneManager {
         }
         this.then = 0.0;
         this.film = new Film0(this.renderer, this.globals);
+        this.addKeyboardShortcut();
         
     }
     resizeRenderer(){
@@ -27,6 +28,21 @@ export class SceneManager {
         this.then = this.globals.time;
 
         this.film.render();
+    }
+
+    addKeyboardShortcut() {
+        const self = this;
+        window.addEventListener( 'keydown', function ( event ) {
+            console.log(event);
+            switch( event.keyCode ) {
+                case 49: // key 1
+                    self.film = new Film0(self.renderer, self.globals);
+                    break;
+                case 50: // key 2
+                    self.film = new Film1(self.renderer, self.globals);
+                    break;
+            }
+        });
     }
 
 }
