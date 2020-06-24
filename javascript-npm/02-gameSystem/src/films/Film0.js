@@ -25,7 +25,7 @@ export class Film0 {
     }
     
     render() {
-        this.transformControls.update();
+        //this.transformControls.update();
         this.transition.render();
         //this.postEffects.render();
          //this.clip.update();
