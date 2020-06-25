@@ -522,30 +522,33 @@ export class World
         console.log(clip);
         const self = this;
         const meshes = [];
-        setTimeout(()=>{
-            clip.scene.children.forEach(mesh => {  
-                if(mesh.name === 'plane'){
-                    mesh.children[0].geometry = new THREE.PlaneBufferGeometry(30,30,50,50);
-                    mesh.children[0].material.color = new THREE.Color(0x00ff00);
-                    mesh.scale.set(20,20,20);
-                    mesh.position.set(0,16,5);
-                    meshes.push(mesh);
-                }
-                if(mesh.name === 'planeAudio'){
-                    mesh.position.set(0,32,5);
-                    mesh.scale.set(30,30,10);
-                    meshes.push(mesh);
-                }
-            });
-            addMeshes(meshes);
-        },
-        5000);
-
+        function addScene () {
+            if(clip.scene.children.length === 6){
+                clip.scene.children.forEach(mesh => {  
+                    if(mesh.name === 'plane'){
+                        mesh.children[0].geometry = new THREE.PlaneBufferGeometry(30,30,50,50);
+                        mesh.children[0].material.color = new THREE.Color(0x00ff00);
+                        mesh.scale.set(20,20,20);
+                        mesh.position.set(0,16,5);
+                        meshes.push(mesh);
+                    }
+                    if(mesh.name === 'planeAudio'){
+                        mesh.position.set(0,32,5);
+                        mesh.scale.set(30,30,10);
+                        meshes.push(mesh);
+                    }
+                });
+                addMeshes(meshes);
+            }else{
+                setTimeout(addScene, 300);
+            }
+        }
+       
+        addScene();
         function addMeshes(meshes){
             meshes.forEach(mesh =>{
                 self.graphicsWorld.add(mesh);
-            });
-            
+            });    
         }
         
     }
