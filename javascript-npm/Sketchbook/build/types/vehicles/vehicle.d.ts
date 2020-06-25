@@ -1,0 +1,44 @@
+import { Character } from '../characters/Character';
+import * as THREE from 'three';
+import * as CANNON from 'cannon';
+import { World } from '../core/World';
+import { KeyBinding } from '../core/KeyBinding';
+import { VehicleSeat } from './VehicleSeat';
+import { Wheel } from './Wheel';
+export declare abstract class Vehicle extends THREE.Object3D {
+    controllingCharacter: Character;
+    actions: {
+        [action: string]: KeyBinding;
+    };
+    rayCastVehicle: CANNON.RaycastVehicle;
+    seats: VehicleSeat[];
+    wheels: Wheel[];
+    drive: string;
+    camera: any;
+    world: World;
+    help: THREE.AxesHelper;
+    collision: CANNON.Body;
+    materials: THREE.Material[];
+    private modelContainer;
+    private firstPerson;
+    constructor(gltf: any, handlingSetup?: any);
+    update(timeStep: number): void;
+    onInputChange(): void;
+    resetControls(): void;
+    allowSleep(value: boolean): void;
+    handleKeyboardEvent(event: KeyboardEvent, code: string, pressed: boolean): void;
+    triggerAction(actionName: string, value: boolean): void;
+    handleMouseButton(event: MouseEvent, code: string, pressed: boolean): void;
+    handleMouseMove(event: MouseEvent, deltaX: number, deltaY: number): void;
+    handleMouseWheel(event: WheelEvent, value: number): void;
+    inputReceiverInit(): void;
+    inputReceiverUpdate(timeStep: number): void;
+    getMountPoint(character: Character): THREE.Vector3;
+    setPosition(x: number, y: number, z: number): void;
+    setSteeringValue(val: number): void;
+    applyEngineForce(force: number): void;
+    setBrake(brakeForce: number, driveFilter?: string): void;
+    addToWorld(world: World): void;
+    removeFromWorld(world: World): void;
+    readVehicleData(gltf: any): void;
+}

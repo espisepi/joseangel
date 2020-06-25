@@ -1,0 +1,14 @@
+import * as CANNON from 'cannon';
+import { Vehicle } from './Vehicle';
+import { IControllable } from '../interfaces/IControllable';
+import { IWorldEntity } from '../interfaces/IWorldEntity';
+import THREE = require('three');
+export declare class Helicopter extends Vehicle implements IControllable, IWorldEntity {
+    rotors: THREE.Object3D[];
+    private enginePower;
+    constructor(gltf: any);
+    update(timeStep: number): void;
+    physicsPreStep(body: CANNON.Body, heli: Helicopter): void;
+    readHelicopterData(gltf: any): void;
+    inputReceiverInit(): void;
+}
