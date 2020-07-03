@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>00-initScene</title>
+    <meta name="description" content="00-initScene">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script type="module" src="./components/water.js"></script>
+    <script type="module" src="./components/backgroundVideo.js"></script>
+  </head>
+  <body>
+    <a-scene backgroundvideo="src: #gatacattana" stats>
+    	<a-assets>
+        <img id="city" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
+        <img id="city-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
+        <video id="gatacattana" autoplay  loop="true" src="../assets/videos/gotham.mp4"></video>
+      </a-assets>
+
+      <a-entity water></a-entity>
+    	
+    </a-scene>
+
+  </body>
+  
+</html>
