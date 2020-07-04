@@ -6,19 +6,29 @@
     <meta name="description" content="00-initScene">
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://stemkoski.github.io/A-Frame-Examples/js/joystick.js"></script>
     <script type="module" src="./components/water.js"></script>
     <script type="module" src="./components/backgroundVideo.js"></script>
+
   </head>
   <body>
-    <a-scene background="color:#00F000" stats>
+    <a-scene stats>
     	<a-assets>
         <img id="city" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
         <img id="city-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
-        <a-asset-item id="azteca" src="../assets/models/gtav/azteca.glb"></a-asset-item>    
+        <a-asset-item id="persona" src="../assets/models/sitting.glb"></a-asset-item>    
       </a-assets>
 
+      <!-- <a-entity environment></a-entity> -->
+      <!-- <a-sky src="#city"></a-sky> -->
+      <a-entity id="sphere" material="side: back; src: #city;" geometry="primitive: sphere; radius: 60; segmentsWidth: 1; segmentsHeight: 1"></a-entity>
       <a-entity id="water" water ></a-entity>
-      <a-entity gltf-model="#azteca" backgroundvideo position="0 2 -4" animation-mixer></a-entity>
+      <a-entity gltf-model="#persona" position="0 1 -4" animation-mixer></a-entity>
+
+      <a-entity id="camera" camera look-controls wasd-controls position="0 1.6 0"
+        animation="property: position; to: 0 1.6 -1; dur: 2000; easing: linear;"
+      ></a-entity>
     	
     </a-scene>
     
