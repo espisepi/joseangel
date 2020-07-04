@@ -1,5 +1,10 @@
 import {Water} from '../../node_modules/three/examples/jsm/objects/Water.js';
 
+// Fix Bug: Sin la siguiente linea algunas veces tenemos component y otras veces no
+const water = document.querySelector('#water');
+water.removeAttribute("water");
+water.setAttribute("water");
+
 AFRAME.registerComponent('water', {
     schema: {
     },

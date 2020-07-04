@@ -5,20 +5,18 @@
     <title>00-initScene</title>
     <meta name="description" content="00-initScene">
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
     <script type="module" src="./components/water.js"></script>
     <script type="module" src="./components/backgroundVideo.js"></script>
   </head>
   <body>
-    <a-scene background="color:#00F000" stats>
+    <a-scene backgroundvideo="src: #gatacattana" stats>
     	<a-assets>
         <img id="city" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
         <img id="city-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
-        <a-asset-item id="azteca" src="../assets/models/gtav/azteca.glb"></a-asset-item>    
+        <video id="gatacattana" autoplay  loop="true" src="../assets/videos/gotham.mp4"></video>
       </a-assets>
 
-      <a-entity id="water" water ></a-entity>
-      <a-entity gltf-model="#azteca" backgroundvideo position="0 2 -4" animation-mixer></a-entity>
+      <a-entity id="water" water></a-entity>
     	
     </a-scene>
 
