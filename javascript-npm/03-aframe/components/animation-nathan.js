@@ -19,15 +19,21 @@ AFRAME.registerComponent('animation-nathan', {
         this.boxEl.setAttribute('material',{color:'#F000F0'})
         //this.el.appendChild(this.boxEl);
 
+        let stopAnimation = true;
+
         const direction = new THREE.Vector3();
         this.el.addEventListener('animation-loop', function(){
             el.object3D.getWorldDirection(direction);
             el.object3D.position.addScaledVector(direction, 3.0);
+            if(stopAnimation){
+                el.setAttribute('animation-mixer', {timeScale: 0});
+            }
         });
 
         //el.object3D.rotation.set(0,Math.PI / 2, 0);
 
         document.addEventListener('keydown', function (evt) {
+            stopAnimation = false;
             el.setAttribute('animation-mixer', {timeScale: 1});
             console.log(evt);
             if(evt.key === "a"){
@@ -44,7 +50,8 @@ AFRAME.registerComponent('animation-nathan', {
             }
           });
         document.addEventListener('keyup', function (evt) {
-            el.setAttribute('animation-mixer', {timeScale: 0});
+            //el.setAttribute('animation-mixer', {timeScale: 0});
+            stopAnimation = true;
         });
 
         
