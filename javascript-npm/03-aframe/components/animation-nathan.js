@@ -40,28 +40,32 @@ AFRAME.registerComponent('animation-nathan', {
         });
 
         document.addEventListener('keydown', function (evt) {
-            stopAnimation = false;
-            el.setAttribute('animation-mixer', {timeScale: 1});
-
             if(evt.key === "a"){
                 input.horizontal = -1;
                 el.object3D.rotation.y = -Math.PI / 2;
+                stopAnimation = false;
+                el.setAttribute('animation-mixer', {timeScale: 1});
             }
             if(evt.key === "w"){
                 input.vertical = 1;
                 el.object3D.rotation.y = 0;
+                stopAnimation = false;
+                el.setAttribute('animation-mixer', {timeScale: 1});
             }
             if(evt.key === "s"){
                 input.vertical = -1;
                 el.object3D.rotation.y = Math.PI;
+                stopAnimation = false;
+                el.setAttribute('animation-mixer', {timeScale: 1});
             }
             if(evt.key === "d"){
                 input.horizontal = 1;
                 el.object3D.rotation.y = Math.PI / 2;
+                stopAnimation = false;
+                el.setAttribute('animation-mixer', {timeScale: 1});
             }
           });
         document.addEventListener('keyup', function (evt) {
-            //el.setAttribute('animation-mixer', {timeScale: 0});
             stopAnimation = true;
 
             if(evt.key === "a"){
