@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aframe-extras": "^6.1.0",
     "simplex-noise": "^2.4.0",
     "three": "^0.117.1",
     "three.cubemap-to-equirectangular": "^1.1.2"
