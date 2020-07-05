@@ -10,27 +10,25 @@
     <script src="https://stemkoski.github.io/A-Frame-Examples/js/joystick.js"></script>
     <script type="module" src="./components/water.js"></script>
     <script type="module" src="./components/backgroundVideo.js"></script>
+    <script src="./components/animation-nathan.js"></script>
 
   </head>
   <body>
     <a-scene background="color: #F000F0" stats>
+
     	<a-assets>
         <img id="city" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
         <img id="city-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
         <a-asset-item id="persona" src="../assets/models/nathan_animated/nathan.glb"></a-asset-item>    
       </a-assets>
 
-      <!-- <a-entity environment></a-entity> -->
-      <!-- <a-sky src="#city"></a-sky> -->
       <a-entity id="sphere" material="side: back; src: #city;" geometry="primitive: sphere; radius: 60; segmentsWidth: 1; segmentsHeight: 1"></a-entity>
       <a-entity id="water" water scale="1 1 5"></a-entity>
-      <a-entity id="persona" gltf-model="#persona" position="0 1 -4" animation-mixer></a-entity>
+      <a-entity id="persona" gltf-model="#persona" position="0 1 -4" animation-mixer animation-nathan></a-entity>
 
-      <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1.6 8"
-      ></a-entity>
+      <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="4 1.6 8"></a-entity>
     	
     </a-scene>
-    
   </body>
   
 </html>
