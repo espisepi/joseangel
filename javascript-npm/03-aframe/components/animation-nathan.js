@@ -17,7 +17,7 @@ AFRAME.registerComponent('animation-nathan', {
         this.boxEl = document.createElement('a-box');
         this.boxEl.object3D.position.y += -0.4;
         this.boxEl.setAttribute('material',{color:'#F000F0'})
-        this.el.appendChild(this.boxEl);
+        //this.el.appendChild(this.boxEl);
 
         const direction = new THREE.Vector3();
         this.el.addEventListener('animation-loop', function(){
@@ -29,6 +29,19 @@ AFRAME.registerComponent('animation-nathan', {
 
         document.addEventListener('keydown', function (evt) {
             el.setAttribute('animation-mixer', {timeScale: 1});
+            console.log(evt);
+            if(evt.key === "a"){
+                el.object3D.rotation.y = -Math.PI / 2;
+            }
+            if(evt.key === "w"){
+                el.object3D.rotation.y = 0;
+            }
+            if(evt.key === "s"){
+                el.object3D.rotation.y = Math.PI;
+            }
+            if(evt.key === "d"){
+                el.object3D.rotation.y = Math.PI / 2;
+            }
           });
         document.addEventListener('keyup', function (evt) {
             el.setAttribute('animation-mixer', {timeScale: 0});
