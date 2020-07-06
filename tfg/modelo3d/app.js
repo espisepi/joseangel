@@ -141,22 +141,19 @@ function createLights() {
 }
 
 function createFloor(){
+	
+	const floorGeometry = new THREE.CircleBufferGeometry( 100, 50 );
 
-	const floorGeometry = new THREE.PlaneGeometry(
-            100,
-            100,
-            1,
-            1
-    );
-
-    const texture = new THREE.TextureLoader().load( 'img/floor2.jpg' );
+	const texture = new THREE.TextureLoader().load( 'img/floor.jpg' );
+	const textureNormal = new THREE.TextureLoader().load( 'img/floor_nor.jpg' );
     texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
-	texture.repeat.set( 8, 8 );
-    const floorMaterial = new THREE.MeshPhongMaterial({
+	texture.repeat.set( 10, 10 );
+    const floorMaterial = new THREE.MeshStandardMaterial({
         color: 0xffcad4,
-        shininess: 0,
-        map: texture
+        roughness: 0.3,
+		map: texture,
+		normalMap: textureNormal
     });
 
     const floor = new THREE.Mesh( floorGeometry, floorMaterial);
@@ -170,14 +167,15 @@ function loadModel(){
 	// bagModel/Arch49_fabric_bump.jpg
 	// bagModel/Arch49_leather_bump.jpg
 	// bagModel/uv_grid_opengl.jpg
-	const texture = new THREE.TextureLoader().load( 'bagModel/Arch49_leather_bump.jpg' );
-
+	const texture = new THREE.TextureLoader().load( 'bagModel/textures/brown_leather_2k_jpg/brown_leather_albedo_2k.jpg' );
+	const textureNormal = new THREE.TextureLoader().load( 'bagModel/textures/brown_leather_2k_jpg/brown_leather_nor_2k.jpg' );
 	const loader = new OBJLoader();
 	loader.load(
 		'bagModel/bag.obj',
 		function ( object ) {
 			object.traverse((child)=>{
 				if(child.isMesh){
+					child.material = new THREE.MeshStandardMaterial({map:texture, normalMap: textureNormal, roughness: 0.4});
 					child.material.map = texture;
 					child.castShadow = true;
 					child.receiveShadow = true;
@@ -274,9 +272,18 @@ render();
 							img.src = 'img/'+val+'.jpg';
 
 							const texture = new THREE.TextureLoader().load( img.src );
+							let textureNormal;
+							if( val === "2" || val === "3" ){
+								const imgNormal = document.createElement('img');
+								imgNormal.src = 'img/'+val+'_nor'+'.jpg';
+								textureNormal = new THREE.TextureLoader().load( imgNormal.src );
+							}
 							bagMesh.traverse((child)=>{
 								if(child.isMesh){
 									child.material.map = texture;
+									if(textureNormal){
+										child.material.normalMap = textureNormal;
+									}
 									child.castShadow = true;
 									child.receiveShadow = true;
 								}

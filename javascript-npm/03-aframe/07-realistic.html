@@ -10,20 +10,37 @@
     <script src="https://stemkoski.github.io/A-Frame-Examples/js/joystick.js"></script>
     <script src="components/cubemap.js"></script>
 
+    <script src="https://unpkg.com/aframe-orbit-controls@1.2.0/dist/aframe-orbit-controls.min.js"></script> 
+
   </head>
   <body>
-    <a-scene stats>
+    <a-scene antialias="true" stats>
       
     	<a-assets>
-        <img id="city" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
-        <img id="city-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
-        <a-asset-item id="persona" src="../assets/models/sitting.glb"></a-asset-item>    
+        <img id="metal_ao" src="../assets/textures/factory_wall/factory_wall_ao_2k.jpg">
+        <img id="metal_diff" src="../assets/textures/factory_wall/factory_wall_diff_2k.jpg">
+        <img id="metal_disp" src="../assets/textures/factory_wall/factory_wall_disp_2k.jpg">
+        <img id="metal_nor" src="../assets/textures/factory_wall/factory_wall_nor_2k.jpg">
+        <img id="metal_rough" src="../assets/textures/factory_wall/factory_wall_rough_2k.jpg">
+        <img id="metal_spec" src="../assets/textures/factory_wall/factory_wall_spec_2k.jpg">
       </a-assets>
 
+      <a-entity id="light_directional" light="type: directional; intensity: 0.6" position="3.07331 6.99664 5.40519"></a-entity>
+      <a-entity id="light_hemisphere" light="color: #ffffff; decay: 0.6; intensity: 0.42; type: hemisphere"></a-entity>
+      <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1 4"></a-entity>
       <a-entity id="cubemap" cubemap ></a-entity>
 
-      <!-- <a-entity id="sphere" material="side: back; src: #city;" geometry="primitive: sphere; radius: 60; segmentsWidth: 1; segmentsHeight: 1"></a-entity> -->
-      <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1 4"></a-entity>
+      <a-box color="#FFFFFF"
+             src="#metal_ao"
+             repeat="1 1"
+             normal-map="#metal_nor"
+             roughness-map="#metal_rough"
+             roughness="0.2"
+             width="4" height="4" depth="4"
+             position="2 1.5 -4"
+             scale="1 1 1">
+      </a-box>
+      
 
     </a-scene>
   </div>
