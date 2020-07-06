@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>07-Realistic</title>
+    <meta name="description" content="00-initScene">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://stemkoski.github.io/A-Frame-Examples/js/joystick.js"></script>
+    <script src="components/cubemap.js"></script>
+
+  </head>
+  <body>
+    <a-scene stats>
+      
+    	<a-assets>
+        <img id="city" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
+        <img id="city-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
+        <a-asset-item id="persona" src="../assets/models/sitting.glb"></a-asset-item>    
+      </a-assets>
+
+      <a-entity id="cubemap" cubemap ></a-entity>
+
+      <!-- <a-entity id="sphere" material="side: back; src: #city;" geometry="primitive: sphere; radius: 60; segmentsWidth: 1; segmentsHeight: 1"></a-entity> -->
+      <a-entity id="camera" camera look-controls wasd-controls="acceleration:100" position="0 1 4"></a-entity>
+
+    </a-scene>
+  </div>
+  </body>
+  
+</html>
