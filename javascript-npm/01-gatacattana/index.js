@@ -40,7 +40,7 @@ var video;
 function main() {
 	const canvas = document.querySelector('#c')
 	renderer = new THREE.WebGLRenderer({canvas});
-	renderer.shadowMap.enabled = true;
+	renderer.shadowMap.enabled = false;
 
 	// camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
 	// camera.position.z = 30;
@@ -53,7 +53,7 @@ function main() {
  //camera.rotation.set(0,-3,0);
 
   controls = new OrbitControls( camera, canvas );
-  controls.enabled = false;
+  controls.enabled = true;
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0xd8e2dc);
@@ -63,7 +63,7 @@ function main() {
   stats = new Stats();
   //container.appendChild( stats.dom );
 
-  createLights();
+  // createLights();
 
   //createFloor();
 
@@ -180,13 +180,13 @@ function loadPromises() {
 
     // --------------- WATER -------------
 
-    const waterGeometry = new THREE.BoxBufferGeometry( 10000, 10000, 10000 );
+    const waterGeometry = new THREE.BoxBufferGeometry( 100, 100, 100 );
 
     //const waterGeometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
 	const water = new Water(
 		waterGeometry,
 		{
-			side: THREE.BackSide,
+			side: THREE.DoubleSide,
 			textureWidth: 512,
 			textureHeight: 512,
 			waterNormals: new THREE.TextureLoader().load( 'assets/textures/waternormals.jpg', function ( texture ) {
@@ -203,7 +203,7 @@ function loadPromises() {
 		}
 	);
 	//water.rotation.x = - Math.PI / 2;
-	water.position.y = 5000;
+	water.position.y = 49;
 	water.name = "water";
 	scene.add( water );
 
@@ -306,21 +306,21 @@ function loadTextureVideo( idDomVideo ) {
 
 function createLights(){
 	/* Hemisphere Light */
-	const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.61 );
-  hemiLight.position.set( 0, 0, 0);
-  scene.add( hemiLight );
+	// const hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.61 );
+  // hemiLight.position.set( 0, 0, 0);
+  // scene.add( hemiLight );
 
   /* Directional Light */
-  const dirLight = new THREE.DirectionalLight( 0xffffff, 0.54 );
-  dirLight.position.set( -20, 20, 20 );
-  dirLight.castShadow = true;
-  dirLight.shadow.mapSize = new THREE.Vector2( 1024, 1024 );
-  scene.add( dirLight );
+  // const dirLight = new THREE.DirectionalLight( 0xffffff, 0.54 );
+  // dirLight.position.set( -20, 20, 20 );
+  // dirLight.castShadow = true;
+  // dirLight.shadow.mapSize = new THREE.Vector2( 1024, 1024 );
+  // scene.add( dirLight );
 
-  var targetObject = new THREE.Object3D();
-  targetObject.position.set(0,5,0);
-  scene.add(targetObject);
-  dirLight.target = targetObject;
+  // var targetObject = new THREE.Object3D();
+  // targetObject.position.set(0,5,0);
+  // scene.add(targetObject);
+  // dirLight.target = targetObject;
 
  	// var helper = new THREE.DirectionalLightHelper( dirLight, 5 );
 	// scene.add( helper );
@@ -341,7 +341,7 @@ function createFloor(){
 
   const floor = new THREE.Mesh( floorGeometry, floorMaterial);
   floor.rotation.x = -0.5 * Math.PI;
-  floor.receiveShadow = true;
+  floor.receiveShadow = false;
   floor.position.y = -1;
   scene.add( floor );
 }
@@ -374,7 +374,7 @@ function render(time) {
 	stats.update();
 	TWEEN.update();
 
-	checkTweenAnimation();
+	// checkTweenAnimation();
 
 
   renderer.render( scene, camera );
